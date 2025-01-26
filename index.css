@@ -1,0 +1,649 @@
+
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
+body {
+    font-family: Space Grotesk;
+}
+
+.contact-navbar {
+    background-color: #E02D5B; 
+    color: #444444;  
+font-size: 16px;
+font-weight: 500px;
+/* line-height: 25.6px; */
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+padding-top: 0.5rem; 
+padding-bottom: 0.5rem;
+}
+
+  .contact-navbar a, 
+  .contact-navbar span {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .contact-navbar a:hover {
+    color: #f1f1f1;
+  }
+
+  .contact-navbar .icon {
+    font-size: 1.2rem;
+    margin-right: 10px;
+  }
+
+  /* Register Button */
+  .register {
+    background-color: #E02D5B;
+  }
+
+  .register:hover {
+    background-color: #c91f48;
+  }
+
+  /* Remove underline for Log In */
+  .login-link {
+    text-decoration: none;
+  }
+
+  .login-link:hover {
+    color: #f1f1f1;
+  }
+  .Bridging{
+    width: Hug (1,216px)px;
+height: Hug (505.41px)px;
+gap: 8px;
+opacity: 0px;
+}
+.main{width: 482px;
+    height: 405.41px;
+    gap: 0px;
+    opacity: 0px;
+    
+}
+.input-container {
+    display: flex;
+    align-items: center;
+    background-color: #fff7f7;
+    border-radius: 10px;
+    padding: 7px 12px;
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 400px; */
+  }
+
+  .input-container input {
+    border: none;
+    outline: none;
+    padding: 10px;
+    flex: 1;
+    font-size: 16px;
+    color: #333;
+    background: transparent;
+  }
+
+  .input-container input::placeholder {
+    color: #bbb;
+  }
+
+  .input-container button {
+    background-color:  #E02D5B;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .input-container button:hover {
+    background-color:  #E02D5B;
+  }
+.test{width: 100%;
+    height:18px;
+    font-size: small;
+    gap: 10px;
+    opacity: 0px;
+    }
+    .work{width: Fixed (1,440px)px;
+        height: Fixed (273px)px;
+        gap: 40px;
+        opacity: 0px;
+        background-color:#FFF6F6;
+        margin-top: 50px;
+        }
+        .our{ 
+            gap: 0px;
+            opacity: 0px;
+            color: #73779C;
+            text-align: center;
+            padding-top: 50px;
+ }
+ .brand{width: Fixed (197px)px;
+    height: Fixed (78px)px;
+    gap: 60px;
+    border-radius: 13px 0px 0px 0px;
+    opacity: 0px;
+    }
+    .courses-section {
+        text-align: center;
+        padding: 50px 20px;
+    }
+    
+    .section-title {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        color: #0B0D16;
+    }
+    
+    .section-subtitle {
+        font-size: 1rem;
+        margin-bottom: 40px;
+        color: #666;
+    }
+    
+    .courses-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .course-card {
+        /* background: #fff; */
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .course-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    
+    .card-header {
+        border-radius: 8px;
+        padding: 15px;
+        /* color: #fff; */
+        background-color: transparent;
+        text-align: center;
+    }
+    
+    .product-management {
+        width: Fixed (332px)px;
+        height: Fixed (148px)px;
+        gap: 8px;
+        border-radius: 5px 0px 0px 0px;
+      
+}
+    
+    .business-analysis {
+        width: Hug (1,170px)px;
+        height: Hug (542px)px;
+        gap: 30px;
+        opacity: 0px;
+          }
+    
+    .scrum-master {width: Hug (1,170px)px;
+        height: Hug (542px)px;
+        gap: 30px;
+        opacity: 0px;
+        
+       
+    }
+    
+    .card-header h3 {
+        margin: 0;
+        font-size: 1.5rem;
+    }
+    .card-body{
+        font-family: Space Grotesk;
+font-size: 14px;
+font-weight: 400;
+line-height: 22.4px;
+text-align: center;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+
+    }
+    
+    .card-content {
+        margin: 20px 0;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        color: #333;
+    }
+    
+    .explore-btn {
+        background-color: white;
+        color: black;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 15px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        border: 1px solid black;
+        width: 100%;
+    }
+    
+    .explore-btn:hover {
+        background-color: #E02D5B;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .courses-container {
+            grid-template-columns: 1fr;
+        }
+    }
+    .why-techpro {
+        text-align: center;
+        padding: 50px 20px;
+        background-color: #ffff;
+    }
+    
+    .section-title {
+        width: Fixed (342px)px;
+height: Hug (80px)px;
+gap: 0px;
+justify: space-between;
+opacity: 0px;
+
+    }
+    
+    .section-subtitle {
+        font-size: 1.2rem;
+        color: #555555;
+        margin-bottom: 40px;
+    }
+    
+    .features-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+    
+    .feature-card {
+        background: #F4F4F4;;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        text-align: left;
+        width: 340px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .feature-number {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 5rem;
+        font-weight: 700;
+        color: #f0e8e8ec;
+        z-index: 0;
+    }
+    
+    .feature-title {
+        /* font-size: 1.5rem; */
+        font-weight: 600;
+        color: #191919;
+        margin-bottom: 5px;
+        margin-top: 45px;
+        z-index: 1;
+        position: relative;
+    }
+    
+    .feature-description {
+        font-size: 1rem;
+        color: #555555;
+        line-height: 1.6;
+        z-index: 1;
+        position: relative;
+    }
+.Expert{text-align: center;
+    
+    background-color: #fff6f6;
+
+}
+.Expert .section-title {
+    font-weight: 700;
+    color: #1a1a3b;
+  }
+
+  .Expert .section-subtitle {
+    color: #6c757d;
+  }
+
+  .Expert img {
+    width: 300px; /* Uniform image size */
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .Expert .card {
+    background-color: transparent;
+    border: none;
+  }
+
+  .Expert .card-body {
+    text-align: center;
+  }
+
+  .Expert .card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1a1a3b;
+    display: inline-block;
+   
+  }
+
+  .social-icons {
+    display: inline-block;
+    margin-left: 10px;
+  }
+
+  .social-icons a {
+    color: #1a1a3b;
+    font-size: 1.2rem;
+    margin: 0 5px;
+  }
+
+  .social-icons a:hover {
+    color: #007bff;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 0 20px;
+    position: relative;
+}
+
+.title {
+    color: #1a1a47;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 60px;
+}
+
+.testimonials-wrapper {
+    display: flex;
+    align-items: stretch;
+    gap: 24px;
+}
+
+.testimonial {
+    flex: 1;
+    display: flex;
+    gap: 24px;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 500px; /* Added max-width for smaller cards */
+    height: 300px;
+}
+
+.image-container {
+    width: 45%;
+    position: relative;
+    overflow: hidden;
+    max-height: 300px; /* Added max-height for smaller cards */
+}
+
+.testimonial-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.content {
+    width: 45%;
+    padding: 30px 30px 30px 0; /* Reduced padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.quote-mark {
+    font-size: 3rem; /* Reduced size */
+    color: #1a1a47;
+    line-height: 0;
+    margin-bottom: 15px; /* Reduced margin */
+}
+
+.quote {
+    color: #333;
+    font-size: 1.1rem; /* Reduced size */
+    line-height: 1.5;
+    margin-bottom: 20px; /* Reduced margin */
+}
+
+.author {
+    color: #1a1a47;
+    font-size: 1.1rem; /* Reduced size */
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.role {
+    color: #666;
+    font-size: 0.9rem; /* Reduced size */
+}
+
+.nav-buttons {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    display: flex;
+    gap: 12px;
+}
+
+.nav-button {
+    width: 48px;
+    height: 48px;
+    border: 2px solid #e0e0e0;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+    border-color: #1a1a47;
+}
+
+.nav-button svg {
+    width: 24px;
+    height: 24px;
+    stroke: #1a1a47;
+}
+/* book a section */
+
+
+/* book a section  */
+
+/* Media Queries */
+@media screen and (max-width: 1200px) {
+    .testimonial {
+        max-width: 450px;
+    }
+    .content {
+        padding: 25px 25px 25px 0;
+    }
+    .quote {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .testimonials-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+    .testimonial {
+        width: 100%;
+        max-width: 600px;
+    }
+    .nav-buttons {
+        top: 20px;
+        right: 20px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .title {
+        font-size: 2rem;
+        margin-bottom: 40px;
+    }
+    .testimonial {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .image-container {
+        width: 100%;
+        height: 200px;
+    }
+    .content {
+        width: 100%;
+        padding: 20px;
+    }
+    .quote-mark {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+        margin: 30px auto;
+    }
+    .title {
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+    }
+    .nav-buttons {
+        position: relative;
+        top: 0;
+        right: 0;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .quote {
+        font-size: 0.95rem;
+    }
+    .author {
+        font-size: 1rem;
+    }
+    .role {
+        font-size: 0.85rem;
+    }
+}
+
+
+
+  /* General mobile adjustments */
+@media (max-width: 768px) {
+    /* Adjust the contact navbar */
+    .contact-navbar .d-flex {
+      flex-direction: column;
+      text-align: center;
+    }
+    .contact-navbar .d-flex span {
+      margin-bottom: 5px;
+    }
+  
+    /* Center align main navbar links */
+    .navbar-collapse {
+      text-align: center;
+    }
+    .navbar-nav {
+      flex-direction: column;
+    }
+    .navbar-nav .nav-item {
+      margin-bottom: 10px;
+    }
+    .d-flex .login-link, .d-flex .register {
+      margin: 5px 0;
+    }
+  
+    /* Adjust the hero section */
+    .container .row > div {
+      text-align: center;
+    }
+    .Bridging {
+      font-size: 1.5rem;
+    }
+    .input-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .input-container input, .input-container button {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  
+    /* Adjust the "Our Talents Work With Leading Companies" section */
+    .work .row .col {
+      flex-basis: 100%;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+  
+    /* Adjust the "Our Courses" section */
+    .courses-section .card {
+      margin-bottom: 20px;
+    }
+  
+    /* Adjust the "Why Train With Techpro" section */
+    .features-container {
+      flex-direction: column;
+      align-items: center;
+    }
+    .feature-card {
+      width: 90%;
+      margin-bottom: 20px;
+    }
+  
+    /* Adjust the "We Have Expert Team" section */
+    .Expert .row .col-lg-4 {
+      flex-basis: 100%;
+      max-width: 100%;
+    }
+  }
+  
+  /* Further adjustments for very small screens */
+  @media (max-width: 576px) {
+    .navbar-brand img {
+      height: 30px;
+    }
+    .Bridging {
+      font-size: 1.2rem;
+    }
+    .input-container input, .input-container button {
+      font-size: 0.9rem;
+    }
+    .features-container .feature-card {
+      font-size: 0.9rem;
+    }
+  }
+  
