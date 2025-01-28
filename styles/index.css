@@ -1,39 +1,4 @@
-.register-btn {
-  color: #e02d5b;
-  background-color: whitesmoke;
-  border-radius: 8px;
-  font-size: 16px;
-  text-decoration: none;
-  padding: 8px 14px;
-  letter-spacing: 2px;
-  transition: all 0.3s ease;
-  display: inline-block;
-}
 
-.login-btn {
-  color: #e02d5b;
-  background-color: whitesmoke;
-  border-radius: 8px;
-  font-size: 16px;
-  text-decoration: none;
-  padding: 8px 14px;
-  letter-spacing: 2px;
-  transition: all 0.3s ease;
-  display: inline-block;
-}
-
-.register-btn:hover,
-.login-btn:hover {
-  background-color: #e02d5b;
-  transform: translateX(-2px);
-  color: white;
-  font-weight: 600;
-}
-
-.register-btn:active,
-.login-btn:active {
-  transform: translateX(0);
-}
 
 .intro-text {
   word-spacing: 10px;
