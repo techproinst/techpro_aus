@@ -1,0 +1,261 @@
+.consultancy-wrapper {
+  background-color: #fff6f6;
+
+}
+
+.frame {
+  transition: all 0.3s ease;
+}
+
+.frame:hover {
+  border: 1px solid #E02D5B;
+  cursor: pointer;
+  transform: translateY(-2px);
+}
+
+.free-text {
+  background-color: #e02d5b;
+  padding: 15px 30px;
+  height: 300px;
+}
+.free-text p {
+  line-height: 0.4em;
+}
+.schedule-text {
+  margin-top: 50px;
+}
+
+#legal {
+  border-bottom-width: 2px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-color: whitesmoke;
+  outline: none;
+  box-shadow: none;
+  transition: all 0.3s ease;
+}
+
+#legal.form-control:focus {
+  border-top: 2px solid whitesmoke;
+  border-left: 2px solid whitesmoke;
+  border-right: 2px solid whitesmoke;
+}
+
+#email {
+  border-bottom-width: 2px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-color: whitesmoke;
+  outline: none;
+  box-shadow: none;
+  transition: all 0.6s ease;
+}
+
+#email.form-control:focus {
+  border-top: 2px solid whitesmoke;
+  border-left: 2px solid whitesmoke;
+  border-right: 2px solid whitesmoke;
+}
+
+#phone {
+  border-bottom-width: 2px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-color: whitesmoke;
+  outline: none;
+  box-shadow: none;
+  transition: all 0.6s ease;
+}
+
+#phone.form-control:focus {
+  border-top: 2px solid whitesmoke;
+  border-left: 2px solid whitesmoke;
+  border-right: 2px solid whitesmoke;
+}
+
+#textarea {
+  border-bottom-width: 2px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-color: whitesmoke;
+  outline: none;
+  box-shadow: none;
+  transition: all 0.6s ease;
+}
+
+#textarea.form-control:focus {
+  border-top: 2px solid whitesmoke;
+  border-left: 2px solid whitesmoke;
+  border-right: 2px solid whitesmoke;
+}
+
+.form-wrapper {
+  background-color: white;
+  padding: 20px 30px;
+}
+.submit-btn {
+  margin-top: 50px;
+  border: none;
+  display: inline-block;
+  width: 100%;
+  background-color: #e02d5b;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.submit-btn:hover {
+  background-color: white;
+  transform: translateY(-2px);
+  color: #e02d5b;
+  border: 1px solid #e02d5b;
+  font-weight: 600;
+}
+
+.book-wrapper {
+  background-color: #e02d5b;
+  color: white;
+  padding: 15px 20px;
+  height: 300px;
+}
+.consult-img {
+  width: 350px;
+}
+.frame {
+  width: 60px;
+}
+@media (max-width: 1400px) {
+  .consult-img {
+    width: 300px;
+  }
+
+  .book-wrapper {
+    height: 260px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .book-wrapper {
+    height: 260px;
+  }
+
+  .book-text {
+    font-size: 24px;
+    margin-top: 20px;
+  }
+
+  .free-text p {
+    line-height: 0.9em;
+  }
+}
+
+@media (max-width: 767px) {
+  .consult-img {
+    width: 250px;
+  }
+
+  .book-wrapper {
+    height: 220px;
+  }
+  .frame {
+    width: 40px;
+  }
+
+  .book-text {
+    font-size: 20px;
+  }
+
+  .free-content {
+    font-size: 24px;
+  }
+  .submit-btn {
+    margin-top: 10px;
+  }
+
+
+
+}
+
+@media (max-width:999px) {
+
+     
+.form-wrapper {
+
+  margin-bottom: 40px;
+
+}
+
+
+
+}
+
+@media (max-width: 530px) {
+  .consult-img {
+    width: 230px;
+  }
+
+  .book-wrapper {
+    height: 200px;
+  }
+}
+
+@media (max-width: 486px) {
+  .consult-img {
+    width: 210px;
+  }
+
+  .book-wrapper {
+    height: 180px;
+  }
+
+  .book-text {
+    font-size: 18px;
+    margin-top: 8px;
+  }
+}
+
+@media (max-width: 457px) {
+  .consult-img {
+    width: 180px;
+    margin-top: 10px;
+  }
+
+  .book-wrapper {
+    height: 160px;
+    margin-top: 10px;
+  }
+
+  .book-text {
+    font-size: 18px;
+    margin-top: 8px;
+  }
+}
+
+@media (max-width: 398px) {
+  .consult-img {
+    width: 160px;
+    margin-top: 10px;
+  }
+
+  .book-wrapper {
+    height: 140px;
+    margin-top: 10px;
+  }
+
+  .book-text {
+    font-size: 12px;
+    margin-top: 8px;
+  }
+}
+.free-consult {
+  color: #21344e;
+}
+
+.score{
+  color: #21344e;
+}
+
