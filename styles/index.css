@@ -164,7 +164,7 @@
 .social-icons a {
   color: #1a1a3b;
   font-size: 1.2rem;
-  margin: 0 5px;
+  margin: 0 1px;
 }
 
 .social-icons a:hover {
@@ -187,6 +187,12 @@
 .img-team:hover {
   cursor: pointer;
   transform: scale(1.05);
+}
+.img-team {
+  width: 100%; /* Ensures the image takes the full width of the card */
+  height: 350px; /* Fixed height for uniformity */
+  object-fit: cover; /* Ensures images are properly cropped and fill the area */
+  border-radius: 10px; /* Optional: Gives a smooth border */
 }
 
 .title {
