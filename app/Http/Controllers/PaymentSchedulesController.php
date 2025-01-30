@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PaymentSchedules;
+use App\Models\PaymentSchedule;
 use Illuminate\Http\Request;
 
 class PaymentSchedulesController extends Controller
@@ -34,7 +34,7 @@ class PaymentSchedulesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(PaymentSchedules $paymentSchedules)
+    public function show(PaymentSchedule $paymentSchedules)
     {
         //
     }
@@ -42,7 +42,7 @@ class PaymentSchedulesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(PaymentSchedules $paymentSchedules)
+    public function edit(PaymentSchedule $paymentSchedules)
     {
         //
     }
@@ -50,7 +50,7 @@ class PaymentSchedulesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, PaymentSchedules $paymentSchedules)
+    public function update(Request $request, PaymentSchedule $paymentSchedules)
     {
         //
     }
@@ -58,7 +58,7 @@ class PaymentSchedulesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(PaymentSchedules $paymentSchedules)
+    public function destroy(PaymentSchedule $paymentSchedules)
     {
         //
     }

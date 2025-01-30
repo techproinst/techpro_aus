@@ -1,0 +1,87 @@
+.reg-wrapper {
+  background-color: #fc3468;
+}
+
+.register-btn {
+  background-color: #fc3468;
+}
+
+.custom-hr {
+  color: #fc3468;
+  background-color: #fc3468;
+  height: 3px;
+  width: 20%;
+  margin: 0 auto;
+  border: none;
+}
+
+/* Cart wrapper hover effect */
+.cart-wrapper {
+background-color: #fc3468;
+padding: 20px;
+color: white;
+border-radius: 15px;
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cart-wrapper:hover {
+transform: translateY(-5px); 
+box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); 
+}
+
+
+.Proceed-btn {
+  color: #e02d5b;
+  background-color: whitesmoke;
+  border-radius: 8px;
+  font-size: 16px;
+  text-decoration: none;
+  padding: 8px 45px;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  display: inline-block;
+  border: none;
+}
+
+.Proceed-btn:hover {
+  background-color: #e02d5b;
+  transform: translateX(-2px);
+  color: white;
+  font-weight: 600;
+}
+
+.Proceed-btn:active {
+  transform: translateX(0);
+}
+
+
+.btn-wrapper {
+  margin-bottom: 170px;
+  margin-top: 30px;
+}
+
+@media (max-width:950px) {
+
+  .btn-wrapper {
+    margin-bottom: 120px;
+    margin-top: 30px;
+  }
+
+}
+
+.installment {
+cursor: pointer;
+}
+.full-payment {
+cursor: pointer;
+}
+.installmental {
+display: none;
+}
+.install-hr {
+display: block;
+}
+.install-element {
+display: flex;
+
+}

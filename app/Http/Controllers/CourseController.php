@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Services\ApplicationService;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -13,6 +14,41 @@ class CourseController extends Controller
     public function index()
     {
         //
+    }
+
+    public function showBusinessAnalysis(ApplicationService $applicationService) 
+    {   
+         $location = $applicationService->getLocation();
+
+         $businessAnalysisCourses = Course::with('paymentSchedule')->where('course_type', 0)->get();
+
+         $courseIds = [ 'basic' => 1, 'complete' => 2, 'job' => 3];
+
+         list($basicPackage,$completePackage,$jobPackage) = $applicationService->coursePrices($businessAnalysisCourses, $location, $courseIds);
+
+       //  dd($basicPackage);
+
+         return view('pages.business_analysis_course', compact('businessAnalysisCourses','basicPackage','completePackage', 'jobPackage', 'location'));
+    }
+
+    public function showScrumMaster(ApplicationService $applicationService)
+    {
+        $location = $applicationService->getLocation();
+
+        $businessAnalysisCourses = Course::with('paymentSchedule')->where('course_type', 1)->get();
+
+        $courseIds = [ 'basic' => 4, 'complete' => 5, 'job' => 6];
+
+        list($basicPackage,$completePackage,$jobPackage) = $applicationService->coursePrices($businessAnalysisCourses, $location, $courseIds);
+
+        return view('pages.scrum_master_course', compact('businessAnalysisCourses','basicPackage','completePackage', 'jobPackage', 'location'));
+
+    }
+
+
+    public function getApplicationForm(Course $course)
+    {
+          return view('application.form', compact('course'));
     }
 
     /**

@@ -20,7 +20,9 @@ return new class extends Migration
             $table->string('invoice')->nullable();
             $table->string('transaction_reference')->nullable();
             $table->string('currency')->nullable();
-            $table->string('status')->nullable();
+            $table->integr('status')->default(0);
+            $table->string('purpose')->nullable();
+            $table->string('description')->nullable();
             $table->unsignedBigInteger('schedule_id')->nullable();
             $table->string('payment_receipt');
             $table->timestamps();
