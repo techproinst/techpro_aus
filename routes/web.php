@@ -2,9 +2,12 @@
 
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PaymentScheduleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
+use App\Models\PaymentSchedule;
+use App\Models\Student;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,9 +21,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-})->name('index');
+Route::get('/', [StudentController::class, 'loadIndex'])->name('index');
 
 
 Route::get('/details', function() {
@@ -41,6 +42,9 @@ Route::get('payment/upload/{student}', [PaymentController::class, 'showPaymentUp
 Route::post('payment/store/', [PaymentController::class, 'store'])->name('payment.store');
 
 
+Route::post('feedback', [StudentController::class, 'submitFeedbackForm'])->name('submit.feedback');
+
+
 Route::middleware(['auth', 'verified'])->prefix('admin')->group(function() {
 
     Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
@@ -57,14 +61,15 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function() {
     Route::get('active/payments', [PaymentController::class, 'getActivePayments'])->name('payments.active');
     Route::get('declined/payments', [PaymentController::class, 'getDeclinedPayments'])->name('declined.payments');
 
-    Route::get('pending/reviews', [ReviewController::class, 'getPendingReviews'])->name('pending.reviews');
-    Route::get('active/reviews', [ReviewController::class, 'getActiveReviews'])->name('active.reviews');
-    Route::get('declined/reviews', [ReviewController::class, 'getDeclinedReviews'])->name('declined.reviews');
+    Route::get('pending/reviews', [StudentController::class, 'getPendingReviews'])->name('pending.reviews');
+    Route::get('active/reviews', [StudentController::class, 'getActiveReviews'])->name('active.reviews');
+    Route::get('declined/reviews', [StudentController::class, 'getDeclinedReviews'])->name('declined.reviews');
 
-    Route::post('approve/reviews/{studentReview}', [ReviewController::class, 'approveReview'])->name('approve.reviews');
-    Route::post('decline/reviews/{studentReview}', [ReviewController::class, 'declineReview'])->name('decline.reviews');
+    Route::post('approve/reviews/{student}', [StudentController::class, 'approveReview'])->name('approve.reviews');
+    Route::post('decline/reviews/{student}', [StudentController::class, 'declineReview'])->name('decline.reviews');
 
-    Route::get('/courses', [CourseController::class, 'index'])->name('show.courses');
+    Route::get('/payment-schedule', [PaymentScheduleController::class, 'index'])->name('show.schedules');
+    Route::post('/payment-schedule/{schedule}', [PaymentScheduleController::class, 'update'])->name('schedule.update');
 
 
 

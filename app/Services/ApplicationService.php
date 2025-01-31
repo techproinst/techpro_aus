@@ -54,6 +54,22 @@ class ApplicationService
 
      }
 
+     public function getCountry()
+     {
+        $position = Location::get(request()->ip());
+
+        if ($position) {
+
+            $country = $position->countryName ?? 'N/A';
+    
+            return  $country;
+        } else {
+
+            return 'N/A';
+    
+        }
+     }
+
      public function coursePrices($courses, $location, $courseIds)
      {
         $basicPackage = null;

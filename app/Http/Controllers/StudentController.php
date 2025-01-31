@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AdminReviewNotificationMail;
 use App\Models\Student;
 use App\Services\ApplicationService;
 use Illuminate\Http\Request;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Mail\ApplicationNotification;
 use App\Models\Payment;
 use App\Models\PaymentSchedule;
+use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Exception;
@@ -28,6 +30,14 @@ class StudentController extends Controller
 
     
     }
+
+    public function loadIndex()
+    {
+        $students =  Student::with('course')->where('review_status', Student::STATUS_APPROVED)->get();
+
+        return view('index', compact('students'));
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -65,7 +75,7 @@ class StudentController extends Controller
 
             try {
 
-               Mail::to($student->email)->send(new ApplicationNotification($student->firstname, $student->lastname, $student->email, $student->course->name,  $student->id, $student->course->id)); 
+              // Mail::to($student->email)->send(new ApplicationNotification($student->firstname, $student->lastname, $student->email, $student->course->name,  $student->id, $student->course->id)); 
 
 
             } catch(Exception $err) {
@@ -201,6 +211,230 @@ class StudentController extends Controller
         return view('payments.upload', compact('student','continent'));
 
     }
+
+
+    public function submitFeedbackForm(Request $request, ApplicationService $applicationService)
+    {
+
+       $student = Student::where('app_no', $request->app_no)->first();
+
+       if(!$student) {
+
+            return redirect()->back()->with([
+                'flash_message' => 'Invalid application number',
+                'flash_type' => 'danger'
+
+            ]);
+
+       }
+
+        $validated = $request->validate([
+            'comment' => ['required', 'string', 'max:255'],
+            'passport' => 'required|mimes:jpg,jpeg,png,gif,pdf|max:1024',
+         ]);
+
+         
+         if($request->hasFile('passport')) {
+
+            $image = $request->File('passport');
+            $rad =  mt_rand(1000, 9999);
+    
+            $imageName =  md5($image->getClientOriginalName()) . $rad . '.' . $image->getClientOriginalExtension();
+
+            $image->move(public_path('upload/'), $imageName);
+
+            $upload =  $imageName;
+    
+            if ($upload) {
+
+                $validated['passport'] = $upload;
+            
+            }
+        }
+
+        try {
+
+            DB::beginTransaction();
+
+            $country = $applicationService->getCountry();
+
+            $student->update([
+                    'country' => $country,
+                    'review_status' => Student::STATUS_PENDING,
+                    'comment' => $request->comment,
+                    'passport' => $validated['passport'],
+                ]);
+
+
+                        try {
+
+                            $admin = User::first();
+
+                            Mail::to($admin->email)->send(new AdminReviewNotificationMail($admin->name));
+
+                        } catch(Exception $emailException) {
+
+                            DB::rollBack();
+
+                            Log::error($emailException->getMessage());
+
+                            return redirect()->back()->with([
+                                'flash_message' => 'Critical error occured while trying to send notification, Please try again later or contact our support team',
+                                'flash_type' => 'danger',
+                    
+                            ]);
+
+                        }
+
+            DB::commit();
+
+
+            return redirect()->back()->with([
+                        'flash_message' => 'Your review has been submitted succesfully',
+                        'flash_type' => 'success',
+        
+                    ]);
+
+
+        } catch(Exception $err) {
+
+            Log::error($err->getMessage());
+
+            return redirect()->back()->with([
+                'flash_message' => 'Something went wrong while submitting your review, Please try again later',
+                'flash_type' => 'danger',
+    
+            ]);
+    
+
+            
+
+        }
+
+         
+
+       
+
+
+
+
+    }
+
+    public function getPendingReviews() 
+    {
+       $students = Student::with('course')->where('review_status', Student::STATUS_PENDING)->get(); 
+
+       return view('admin.reviews.pending', compact('students'));
+    }
+
+    public function getActiveReviews()
+    {
+        $students = Student::with('course')->where('review_status', Student::STATUS_APPROVED)->get(); 
+
+         return view('admin.reviews.active', compact('students'));
+    }
+
+
+    public function getDeclinedReviews() 
+    {
+         
+        $students = Student::with('course')->where('review_status', Student::STATUS_DECLINED)->get(); 
+
+        return view('admin.reviews.declined', compact('students'));
+    }
+
+
+    public function approveReview(Student $student)
+    {    
+        if(!$student) {
+            
+            return redirect()->back()->with([
+                'flash_message' => 'Review not found',
+                'flash_type' => 'danger',
+
+            ]);
+
+        }
+
+        try {
+
+            $student->review_status = student::STATUS_APPROVED;
+            $student->save();
+    
+            return redirect()->back()->with([
+                'flash_message' => 'Review approved successfully',
+                'flash_type' => 'success',
+    
+            ]);
+
+
+        } catch(Exception $err) {
+
+            Log::error($err->getMessage());
+
+            return redirect()->back()->with([
+                'flash_message' => 'An error occured while approving the review.',
+                'flash_type' => 'danger',
+    
+            ]);
+
+
+
+        }
+
+
+       
+
+    }
+
+
+    public function declineReview(Student $student)
+    {    
+        if(!$student) {
+            
+            return redirect()->back()->with([
+                'flash_message' => 'Review not found',
+                'flash_type' => 'danger',
+
+            ]);
+
+        }
+
+        try {
+
+            $student->review_status = student::STATUS_DECLINED;
+            $student->save();
+    
+            return redirect()->back()->with([
+                'flash_message' => 'Review Declined successfully',
+                'flash_type' => 'success',
+    
+            ]);
+
+
+        } catch(Exception $err) {
+
+            Log::error($err->getMessage());
+
+            return redirect()->back()->with([
+                'flash_message' => 'An error occured while declining the review.',
+                'flash_type' => 'danger',
+    
+            ]);
+
+
+
+        }
+
+
+       
+
+    }
+
+
+
+
+    
 
     /**
      * Display the specified resource.

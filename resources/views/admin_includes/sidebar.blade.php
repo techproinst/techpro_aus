@@ -182,13 +182,13 @@
         <li class="sidebar-item has-sub">
           <a href="#" class="sidebar-link">
             <i class="bi bi-hexagon-fill"></i>
-            <span>Courses Menu</span>
+            <span>Payment Schedule</span>
           </a>
 
           <ul class="submenu">
             <li class="submenu-item">
-              <a href="{{route('show.courses') }}" class="submenu-link"
-                >All courses</a>
+              <a href="{{route('show.schedules') }}" class="submenu-link"
+                >View Prices</a>
             </li>
 
       

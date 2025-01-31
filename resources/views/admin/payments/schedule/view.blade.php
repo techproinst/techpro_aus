@@ -1,10 +1,10 @@
 <x-admin-layout>
   <x-slot:title>
-    Reviews
+    Payment Schedule
   </x-slot:title>
 
   <x-slot:header>
-    Review :: Menu
+    Payments Schedule :: Menu
   </x-slot:header>
 
   <div class="row">
@@ -38,7 +38,7 @@
     <div class="card">
       <div class="card-header">
         <h5 class="card-title">
-          Pending :: Reviews
+          Schedule :: Menu
         </h5>
       </div>
       <div class="card-body">
@@ -46,32 +46,36 @@
           <thead>
             <tr>
               <th>S/N</th>
-              <th>FullName</th>
-              <th>Email</th>
-              <th>Status</th>
-              <th>comments</th>
-              <th>Image</th>
+              <th>Course Name</th>
+              <th>Purpose</th>
+              <th>Description</th>
+              <th>Amount</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            @foreach ($students as  $student )
+            @foreach ($paymentSchedules as  $schedule )
             <tr>
               <td>{{ $loop->iteration }}</td>
-              <td>{{ Str::ucfirst(strtolower($student->firstname))}} {{ Str::ucfirst(strtolower($student->lastname))}}</td>
-              <td>{{ $student->email }}</td>
-              <td>{{ $student->review_status ===  0 ? 'pending' : ''}}</td>
-              <td>{{ $student->comment}}</td>
-              <td> <a href="{{ asset(
-              'upload/'.$student->passport) }}" target="_blank"><img  height="60px" src="{{ asset('upload/'.$student->passport)  }}" alt="image"></a></td>
+              <td>{{$schedule->course->name}}</td>
+              <td>{{ $schedule->purpose }}</td>
+              <td>{{ $schedule->description}}</td>
+              @php
+                $amounts = json_decode($schedule->amount,true);
+              @endphp
+              <td> @foreach ($amounts as $key => $amount )
+
+                  @php
+                  $currencySymbol =   $key === 'Other' ? '$' : '&#8358;';    
+                  @endphp 
+
+                 {{ $key }} :  {!! $currencySymbol !!}{{ number_format($amount) }}  <br>
+                
+              @endforeach</td>
               <td>
-                @include('admin.reviews.approve_form')
-                @include('admin.reviews.decline_form')
-        
+                  @include('admin.payments.schedule.edit_form')
                 <span class="badge bg-success" data-bs-toggle="modal"
-                  data-bs-target="#approve-form{{ $student->id }}">Approve</span>
-                <span class="badge bg-danger" data-bs-toggle="modal"
-                data-bs-target="#decline-form{{ $student->id }}" >Decline</span>
+                  data-bs-target="#border-less{{ $schedule->id }}">Edit</span>
               </td>
             </tr>
             @endforeach
@@ -84,4 +88,4 @@
 
 
 
-</x-admin-layout>
+</x-admin-layout> 

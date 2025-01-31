@@ -1,7 +1,7 @@
-<form action="{{ route('decline.reviews', ['studentReview' => $review->id]) }}" method="POST">
+<form action="{{ route('decline.reviews', ['student' => $student->id]) }}" method="POST">
   @csrf
 
-  <div class="modal fade text-left modal-borderless" id="decline-form{{ $review->id }}" tabindex="-1" role="dialog"
+  <div class="modal fade text-left modal-borderless" id="decline-form{{ $student->id }}" tabindex="-1" role="dialog"
     aria-labelledby="myModalLabel1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
       <div class="modal-content">
@@ -12,7 +12,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <h6>Are you sure you want to decline  <span class="text-danger">{{ Str::ucfirst(strtolower($review->student->firstname))}} {{ Str::ucfirst(strtolower($review->student->lastname))}}</span> comment </h6>
+          <h6>Are you sure you want to decline  <span class="text-danger">{{ Str::ucfirst(strtolower($student->firstname))}} {{ Str::ucfirst(strtolower($student->lastname))}}</span> comment </h6>
           
         </div>
        

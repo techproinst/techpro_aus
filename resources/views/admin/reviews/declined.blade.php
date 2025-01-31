@@ -22,23 +22,21 @@
               <th>S/N</th>
               <th>Fullname</th>
               <th>Email</th>
-              <th>Ratings</th>
               <th>Status</th>
               <th>comments</th>
               <th>Image</th>
             </tr>
           </thead>
           <tbody>
-            @foreach ($reviews as $index => $review )
+            @foreach ($students as $student )
             <tr>
-              <td>{{ $index + 1 }}</td>
-              <td>{{ Str::ucfirst(strtolower($review->student->firstname))}} {{ Str::ucfirst(strtolower($review->student->lastname))}}</td>
-              <td>{{ $review->student->email }}</td>
-              <td>{{ $review->ratings }}</td>
-              <td>{{ $review->status ===  -1 ? 'declined' : ''}}</td>
-              <td>{{ $review->comments}}</td>
+              <td>{{ $loop->iteration }}</td>
+              <td>{{ Str::ucfirst(strtolower($student->firstname))}} {{ Str::ucfirst(strtolower($student->lastname))}}</td>
+              <td>{{ $student->email }}</td>
+              <td>{{ $student->review_status ===  -1 ? 'declined' : ''}}</td>
+              <td>{{ $student->comments}}</td>
               <td> <a href="{{ asset(
-              'upload/'.$review->image) }}" target="_blank"><img  height="60px" src="{{ asset('upload/'.$review->image)  }}" alt="image"></a></td>
+              'upload/'.$review->image) }}" target="_blank"><img  height="60px" src="{{ asset('upload/'.$student->image)  }}" alt="image"></a></td>
             </tr>
             @endforeach
           </tbody>

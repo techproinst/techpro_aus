@@ -19,6 +19,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('app_no')->nullable();
             $table->string('password');
+            $table->string('country')->nullable();
+            $table->integer('review_status')->default(0);
+            $table->string('passport')->nullable();
+            $table->longText('comment')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

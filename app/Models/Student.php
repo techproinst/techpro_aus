@@ -12,6 +12,12 @@ class Student extends Model
 
     protected $guarded = [];
 
+      
+    const  STATUS_PENDING = 0;
+    const  STATUS_APPROVED = 1;
+    const  STATUS_DECLINED = -1;
+
+
 
     static public function genAppNo($year){
 

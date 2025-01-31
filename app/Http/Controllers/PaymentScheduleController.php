@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\PaymentSchedule;
 use Illuminate\Http\Request;
 
-class PaymentSchedulesController extends Controller
+class PaymentScheduleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $paymentSchedules = PaymentSchedule::with('course')->get();
+
+        return view('admin.payments.schedule.view', compact('paymentSchedules'));
     }
 
     /**
@@ -50,9 +52,37 @@ class PaymentSchedulesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, PaymentSchedule $paymentSchedules)
+    public function update(Request $request, PaymentSchedule $schedule)
     {
-        //
+      $validated = $request->validate([
+            'amount_other' => ['required', 'numeric', 'min:0'],
+            'amount_africa' => ['required', 'numeric', 'min:0'],
+
+        ]);
+
+
+       
+
+        $amounts = json_decode($schedule->amount, true);
+
+        $amounts['Other'] = $validated['amount_other'];
+        $amounts['Africa'] = $validated['amount_africa'];
+
+        $schedule->amount = json_encode($amounts);
+
+        $schedule->save();
+
+
+        return redirect()->back()->with([
+            'flash_message' => 'Payment Schedule has been updated successfully',
+            'flash_type' => 'success',
+
+        ]);
+
+
+
+
+    
     }
 
     /**
