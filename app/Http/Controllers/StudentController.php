@@ -75,7 +75,7 @@ class StudentController extends Controller
 
             try {
 
-              // Mail::to($student->email)->send(new ApplicationNotification($student->firstname, $student->lastname, $student->email, $student->course->name,  $student->id, $student->course->id)); 
+               Mail::to($student->email)->send(new ApplicationNotification($student->firstname, $student->lastname, $student->email, $student->course->name,  $student->id, $student->course->id)); 
 
 
             } catch(Exception $err) {

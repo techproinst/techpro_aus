@@ -159,7 +159,7 @@ class PaymentController extends Controller
                 $adminName = $admin->name;
           
             
-             // Mail::to($adminEmail)->send(new AdminNotification ($adminName));
+              Mail::to($adminEmail)->send(new AdminNotification ($adminName));
 
 
             }catch(Exception $err) {
@@ -258,7 +258,7 @@ class PaymentController extends Controller
                
                try {
 
-             /*   Mail::to($student->email)->send(new PaymentApprovalMail(
+              Mail::to($student->email)->send(new PaymentApprovalMail(
                     $student->firstname,
                     $student->lastname,
                     $student->email,
@@ -266,7 +266,7 @@ class PaymentController extends Controller
                     $student->app_no,
                     $payment->payment_reference,
                     $payment->amount,
-                    $payment->currency));*/
+                    $payment->currency));
 
                } catch(Exception $emailException) {
 
@@ -331,13 +331,13 @@ class PaymentController extends Controller
 
                 try {
 
-                /*    Mail::to($student->email)->send(new PaymentDeclinedMail(
+                   Mail::to($student->email)->send(new PaymentDeclinedMail(
                         $student->firstname,
                         $student->lastname,
                         $student->email,
                         $course->name,
                         $request->comments,
-                    ));  */
+                    ));  
 
                 } catch(Exception $emailException) {
 
