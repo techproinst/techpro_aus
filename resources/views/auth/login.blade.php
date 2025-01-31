@@ -2,6 +2,11 @@
     <x-slot:title>
       Admin ::Login
     </x-slot:title>
+
+    <x-slot:link>
+        Auth
+    </x-slot:link>
+    
   
     <x-slot:course_title>
       Admin login

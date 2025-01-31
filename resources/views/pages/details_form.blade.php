@@ -4,6 +4,11 @@
     Verify :: Details
   </x-slot:title>
 
+  <x-slot:link>
+    Application
+  </x-slot:link>
+
+
   <x-slot:course_title>
     Verify Details
   </x-slot:course_title>

@@ -4,6 +4,11 @@
     Details :: Page
   </x-slot:title>
 
+  <x-slot:link>
+    Details
+  </x-slot:link>
+
+
   <x-slot:course_title>
     Full Details
   </x-slot:course_title>

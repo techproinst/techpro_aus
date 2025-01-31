@@ -28,21 +28,26 @@ Route::get('/details', function() {
     return view('pages.details_form');
 })->name('page.details');
 
+Route::get('/quiz', function() {
+    return view('pages.quiz');
+})->name('quiz');
+
 Route::post('/details-form', [StudentController::class, 'showDetails'])->name('details.post');
 Route::get('/outstanding-fees/{student}', [StudentController::class, 'outstanding' ])->name('outstanding.payment');
 
 Route::get('/business-analysis', [CourseController::class, 'showBusinessAnalysis'])->name('show.businessAnalysis');
 Route::get('/scrum-master', [CourseController::class, 'showScrumMaster'])->name('show.scrumMaster');
 
-Route::get('application/{course}', [CourseController::class, 'getApplicationForm'] )->name('application.form');
-Route::post('application/form', [StudentController::class, 'store'])->name('application.submit');
+Route::get('/application/{course}', [CourseController::class, 'getApplicationForm'] )->name('application.form');
+Route::post('/application/form', [StudentController::class, 'store'])->name('application.submit');
 
-Route::get('payment/{student}', [PaymentController::class, 'index'])->name('payment');
-Route::get('payment/upload/{student}', [PaymentController::class, 'showPaymentUpload'])->name('payment.show');
-Route::post('payment/store/', [PaymentController::class, 'store'])->name('payment.store');
+Route::get('/payment/{student}', [PaymentController::class, 'index'])->name('payment');
+Route::get('/payment/upload/{student}', [PaymentController::class, 'showPaymentUpload'])->name('payment.show');
+Route::post('/payment/store/', [PaymentController::class, 'store'])->name('payment.store');
 
 
-Route::post('feedback', [StudentController::class, 'submitFeedbackForm'])->name('submit.feedback');
+Route::post('/feedback', [StudentController::class, 'submitFeedbackForm'])->name('submit.feedback');
+Route::post('/consultancy', [UserController::class, 'submitConsultancyForm'])->name('consultancy');
 
 
 Route::middleware(['auth', 'verified'])->prefix('admin')->group(function() {

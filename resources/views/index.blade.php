@@ -121,7 +121,7 @@
         <p class="mt-5">
           <img class="img-tick" src="{{ asset('assets/images/tick-circle.png') }}" alt="" />Discover
           the perfect course for you by taking our personality test.
-          <span><a class="test" href="quiz.html">Take a test</a> </span>
+          <span><a class="test" href="{{ route('quiz') }}">Take a test</a> </span>
         </p>
       </div>
     </div>
@@ -522,24 +522,17 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-5">
+        <div class="col-lg-5">  
+            @if (session('flash_message'))
+            <div class="alert alert-{{ session('flash_type', 'info') }} alert-dismissible fade show" role="alert">
+                {{ session('flash_message') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
           <div id="contact" class="form-wrapper">
             <h6>Schedule Your</h6>
             <h1 class="free-consult">Free Consultation</h1>
-            <form action="">
-              <div class="mt-4 mt-md-5">
-                <input type="text" class="form-control" id="legal" placeholder="Legal Name" />
-              </div>
-              <div class="mt-4 mt-md-5">
-                <input type="email" class="form-control" id="email" placeholder="Email" />
-              </div>
-              <div class="mt-4 mt-md-5">
-                <input type="text" class="form-control" id="phone" placeholder="Phone Number" />
-              </div>
-              <textarea class="form-control mt-4 mt-md-5 mb-4" id="textarea" rows="3"
-                placeholder="Service Description"></textarea>
-              <input class="submit-btn" type="submit" />
-            </form>
+           @include('pages_include.consultancy-form')
           </div>
         </div>
       </div>
@@ -614,13 +607,13 @@
                 @enderror
               </div>
       
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-success">Submit</button>
-      </div>
-      
-     </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success">Submit</button>
+          </div>
+          
+        </form>
     </div>
   </div>
 </div>

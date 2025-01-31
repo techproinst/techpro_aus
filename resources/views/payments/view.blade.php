@@ -3,8 +3,13 @@
     Payment Page
   </x-slot:title>
 
+  <x-slot:link>
+    Payment
+  </x-slot:link>
+
+
   <x-slot:course_title>
-    Payment Cart
+     Cart
   </x-slot:course_title>
 
   <x-slot:styles>

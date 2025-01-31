@@ -2,7 +2,10 @@
     <x-slot:title>
       Password :: Reset
     </x-slot:title>
-  
+    <x-slot:link>
+        Auth     
+    </x-slot:link>
+    
     <x-slot:course_title>
       Reset Password
     </x-slot:course_title>

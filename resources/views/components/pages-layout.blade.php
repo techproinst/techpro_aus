@@ -48,42 +48,11 @@
               </div>
             </div>
             <div class="col-lg-5">
-              <div class="form-wrapper">
+              <div id="contact" class="form-wrapper">
                 <h6>Schedule Your</h6>
                 <h1 class="free-consult">Free Consultation</h1>
-                <form action="">
-                  <div class="mt-4 mt-md-5">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="legal"
-                      placeholder="Legal Name"
-                    />
-                  </div>
-                  <div class="mt-4 mt-md-5">
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="email"
-                      placeholder="Email"
-                    />
-                  </div>
-                  <div class="mt-4 mt-md-5">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="phone"
-                      placeholder="Phone Number"
-                    />
-                  </div>
-                  <textarea
-                    class="form-control mt-4 mt-md-5 mb-4"
-                    id="textarea"
-                    rows="3"
-                    placeholder="Service Description"
-                  ></textarea>
-                  <input class="submit-btn" type="submit" />
-                </form>
+                @include('pages_include.consultancy-form')
+               
               </div>
             </div>
           </div>

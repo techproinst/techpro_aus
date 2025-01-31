@@ -3,6 +3,10 @@
     Business Analysis Course
   </x-slot:title>
 
+  <x-slot:link>
+    Courses
+  </x-slot:link>
+
   <x-slot:course_title>
     Business Analysis
   </x-slot:course_title>

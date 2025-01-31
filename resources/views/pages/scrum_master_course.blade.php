@@ -3,6 +3,11 @@
     Scrum Analysis Course
   </x-slot:title>
 
+  <x-slot:link>
+    Courses
+  </x-slot:link>
+
+
   <x-slot:course_title>
     Scrum Analysis
   </x-slot:course_title>

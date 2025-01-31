@@ -79,7 +79,7 @@
       <div class="pt-3">
         <i class="fa-solid fa-house house-icon pe-2">
         </i><span class="text-white">></span>
-        <a class="course-link" href="">Courses</a>
+        <a class="course-link" href="">{{ $link }}</a>
         <span class="text-white">></span>
         <span class="business-text">{{ $course_title ?? '' }}</span>
 

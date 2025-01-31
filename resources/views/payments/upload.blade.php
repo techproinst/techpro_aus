@@ -4,8 +4,13 @@
     Payment Upload Page
   </x-slot:title>
 
+  <x-slot:link>
+    Payment Upload
+  </x-slot:link>
+
+
   <x-slot:course_title>
-    Payment Upload Cart
+     Cart
   </x-slot:course_title>
   <x-slot:styles>
     <link rel="stylesheet" href="{{ asset('assets/styles/upload.css') }}">

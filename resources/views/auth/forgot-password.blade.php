@@ -2,6 +2,11 @@
     <x-slot:title>
       Forgot :: Password
     </x-slot:title>
+
+    <x-slot:link>
+        Auth
+      </x-slot:link>
+    
   
     <x-slot:course_title>
       Password Reset

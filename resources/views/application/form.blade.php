@@ -3,8 +3,13 @@
     Application Form
   </x-slot:title>
 
+  <x-slot:link>
+    Application
+  </x-slot:link>
+
+
   <x-slot:course_title>
-    Application Form
+     Form
   </x-slot:course_title>
   <style>
     .card .card-header{
