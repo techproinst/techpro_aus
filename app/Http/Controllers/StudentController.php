@@ -15,7 +15,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Exception;
-
+use Illuminate\Support\Facades\Validator;
 
 class StudentController extends Controller
 {
@@ -228,11 +228,26 @@ class StudentController extends Controller
 
        }
 
-        $validated = $request->validate([
-            'comment' => ['required', 'string', 'max:255'],
+        $validator = Validator::make($request->all(), [
+            'comment' => ['required', 'string', 'max:20'],
             'passport' => 'required|mimes:jpg,jpeg,png,gif,pdf|max:1024',
-         ]);
+        ]);
 
+        if($validator->fails()) {
+
+            return redirect()->back()->with([
+                'flash_message' => 'Validation Failed, All input are required!!',
+                'flash_type' => 'danger',
+    
+            ]);
+            
+           
+
+        };
+
+         
+           
+         $upload = null;
          
          if($request->hasFile('passport')) {
 
@@ -245,25 +260,20 @@ class StudentController extends Controller
 
             $upload =  $imageName;
     
-            if ($upload) {
-
-                $validated['passport'] = $upload;
-            
-            }
         }
 
         try {
 
             DB::beginTransaction();
 
-            $country = $applicationService->getCountry();
+                        $country = $applicationService->getCountry();
 
-            $student->update([
-                    'country' => $country,
-                    'review_status' => Student::STATUS_PENDING,
-                    'comment' => $request->comment,
-                    'passport' => $validated['passport'],
-                ]);
+                        $student->update([
+                                'country' => $country,
+                                'review_status' => Student::STATUS_PENDING,
+                                'comment' => $request->comment,
+                                'passport' => $upload ?? null,
+                            ]);
 
 
                         try {
@@ -297,6 +307,8 @@ class StudentController extends Controller
 
 
         } catch(Exception $err) {
+
+            DB::rollBack();
 
             Log::error($err->getMessage());
 

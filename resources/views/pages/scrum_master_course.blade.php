@@ -16,8 +16,8 @@
   <div class="container">
     <div class="row mt-4">
       <div class="col text-center mt-1 mt-md-5 ">
-        <h1 class="title">Scrum Analysis</h1>
-        <p>Select the course that aligns with  your intrests and goals</p>
+        <h1 class="title">Scrum Master Certifcation</h1>
+        <p>Select the Certificate that aligns with  your intrests and goals</p>
       </div>
     </div>
 

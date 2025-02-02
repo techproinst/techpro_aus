@@ -34,6 +34,17 @@
 
     }
 
+    .form-control {
+            border: 1px solid #e02d5b;
+            border-radius: 0;
+        
+        }
+       .form-control:focus {
+            border-color: #fc3468;
+            box-shadow: none;
+            
+            } 
+
     </style>
 
 

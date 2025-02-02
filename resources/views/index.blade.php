@@ -65,7 +65,7 @@
                 <a class="dropdown-item" href="{{ route('show.businessAnalysis') }}">Business Analysis</a>
               </li>
               <li>
-                <a class="dropdown-item" href="show.scrumMaster">Scrum master</a>
+                <a class="dropdown-item" href="{{route('show.scrumMaster')  }}">Scrum master Certification</a>
               </li>
 
             </ul>
@@ -352,6 +352,7 @@
       </div>
     </div>
 
+
     <div class="row mt-4">
       <div class="col">
         <div class="swiper">
@@ -589,16 +590,17 @@
                   
                 @enderror
               </div>
+             
               
             
               <div class="mb-3 mt-3">
                 <label for="formFile" class="form-label">Upload Image</label>
-                <input class="form-control" name="passport" type="file" id="formFile">
+                <input class="form-control" name="passport" type="file" id="formFile" required>
               </div>
 
               <div class="mb-3">
                 <label for="exampleFormControlTextarea1" class="form-label">Comments</label>
-                <textarea class="form-control" name="comment" rows="3">{{ old('comment') }}</textarea>
+                <textarea required class="form-control" name="comment" rows="3">{{ old('comment') }}</textarea>
                 @error('comment')
                 <span class="text-danger">
                   {{ $message }}
