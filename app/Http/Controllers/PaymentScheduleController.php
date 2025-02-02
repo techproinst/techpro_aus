@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class PaymentScheduleController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('permission:update course-price', ['only' => 'update']);
+    }
     /**
      * Display a listing of the resource.
      */

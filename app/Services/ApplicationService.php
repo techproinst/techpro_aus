@@ -45,7 +45,7 @@ class ApplicationService
 
                 } else {
 
-                    return "Other";
+                    return "Africa";
 
 
                 }

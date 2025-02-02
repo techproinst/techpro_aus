@@ -38,7 +38,7 @@
               <td>{{ $payment->transaction_reference }}</td>
               <td>{{ $payment->status === -1 ? 'Declined' : '' }}</td>
               @php
-                $currencySymbol = $payment->currency === 'usd' ? '$' : '&#8358';
+                $currencySymbol = $payment->currency === 'usd' ? '$' : '&#8358;';
               @endphp
               <td>{!!$currencySymbol!!}{{number_format($payment->amount)}}</td>
               <td>{!!$currencySymbol!!}{{number_format($payment->amount_due)}}</td>

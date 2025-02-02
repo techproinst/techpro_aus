@@ -67,7 +67,7 @@
           <a class="nav-link" href="#">Mentorship</a>
         </li>
       </ul>
-      <a class="login-btn me-3 mt-2" href="">Log In</a>
+      <a class="login-btn me-3 mt-2" href="{{ route('page.details') }}">Log In</a>
       <a class="register-btn mt-2" href="">Register Now</a>
     </div>
   </div>

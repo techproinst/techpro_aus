@@ -3,7 +3,9 @@
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentScheduleController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
 use App\Models\PaymentSchedule;
@@ -28,6 +30,9 @@ Route::get('/details', function() {
     return view('pages.details_form');
 })->name('page.details');
 
+
+
+
 Route::get('/quiz', function() {
     return view('pages.quiz');
 })->name('quiz');
@@ -51,8 +56,27 @@ Route::post('/consultancy', [UserController::class, 'submitConsultancyForm'])->n
 
 
 Route::middleware(['auth', 'verified'])->prefix('admin')->group(function() {
+    
+    // Route::group(['middleware' => 'role:super-admin|admin'], function() {
+        Route::group(['middleware' => 'isAdmin'], function() {
+            
+        Route::resource('roles', RoleController::class);
+        Route::delete('roles/{roleId}/delete', [RoleController::class, 'destroy']); //->middleware('permission:delete role');
 
-    Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
+        Route::get('roles/{roleId}/give-permissions', [RoleController::class, 'addPermissionToRole']);
+        Route::put('roles/{roleId}/give-permissions', [RoleController::class, 'givePermissionToRole']);
+    
+        Route::resource('users', UserController::class);
+        Route::delete('users/{userId}/delete', [UserController::class, 'destroy']);
+    
+        Route::resource('permissions', PermissionController::class);
+        Route::delete('permissions/{permissionId}/delete', [PermissionController::class, 'destroy']);
+    
+        
+        Route::get('/dashboard', [UserController::class, 'loadDashboard'])->name('dashboard');
+
+      });
+   
 
     Route::get('/students', [StudentController::class, 'index'])->name('students.view');
     Route::post('/students/{student}',[StudentController::class, 'update'])->name('student.update');

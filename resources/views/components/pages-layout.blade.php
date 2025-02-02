@@ -2,13 +2,17 @@
 <html lang="en">
 <head>
   @include('pages_include.head')
+  <style>
+
+  </style>
 </head>
 <body>
 
     @include('pages_include.nav')
 
     {{ $slot }}
-
+    
+    <i class="fa fa-arrow-circle-up fa-3x scroll-icon"></i>
     <section class="consultancy-wrapper consultancy-wrapper-margin">
         <div class="container">
           <div class="row pt-5">
@@ -143,6 +147,11 @@
         </div>
       </footer> 
 
-    
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+      <script src="{{ asset('assets/scripts/shared.js') }}"></script>
+
+  <script>
+
+    </script>  
 </body>
 </html>

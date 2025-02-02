@@ -64,7 +64,8 @@
               <td>{{ $payment->transaction_reference }}</td>
               <td>{{ $payment->status === 0  ? 'Pending' : '' }}</td>
               @php
-                $currencySymbol = $payment->currency === 'usd' ? '$' : '&#8358';
+                $currencySymbol = $payment->currency === 'usd' ? '$' : '&#8358;';
+
               @endphp
               <td>{!!$currencySymbol!!}{{number_format($payment->amount_due)}}</td>
               <td> <a href="{{ asset(

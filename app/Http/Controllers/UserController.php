@@ -10,15 +10,29 @@ use App\Models\Student;
 use App\Models\StudentReview;
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+
+
+    
+    public function __construct()
+    {
+          $this->middleware('permission:view user',['only' => ['index']]);
+          $this->middleware('permission:create user',['only' => ['create', 'store',]]);
+          $this->middleware('permission:update user',['only' => ['update', 'edit']]);
+          $this->middleware('permission:delete user',['only' => ['destroy']]);
+       
+    
+    }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function loadDashboard()
     {
 
         $students = Student::count();
@@ -75,6 +89,17 @@ class UserController extends Controller
 
     }
 
+    public function index()
+    { 
+        $roles = Role::pluck('name', 'name')->all();
+        $users = User::all();
+
+        return view('admin.users.view', compact('users', 'roles'));
+    }
+
+
+    
+
 
     /**
      * Show the form for creating a new resource.
@@ -89,7 +114,33 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['required', 'string', 'min:8', 'max:20'],
+            'roles' => ['required'],
+
+        ]);
+
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+
+        ]);
+
+        $user->syncRoles($request->roles);
+
+        return redirect()->back()->with([
+            'flash_message' => 'User created successfully with Roles',
+            'flash_type' => 'success',
+
+        ]);
+
+
+
     }
 
     /**
@@ -103,24 +154,64 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        $roles = Role::pluck('name', 'name')->all();
+        $userRoles = $user->roles->pluck('name', 'name')->all(); 
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
-        //
+        
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'password' => ['nullable', 'string', 'min:8', 'max:20'],
+            'roles' => ['required'],
+
+        ]);
+         
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+        ];
+
+        if(!empty($request->password)) {
+
+            $data += [
+                'password' => Hash::make($request->password),
+            ];
+
+        }
+
+        $user->update($data);
+
+        $user->syncRoles($request->roles);
+
+        return redirect()->back()->with([
+            'flash_message' => 'User Updated successfully with Roles',
+            'flash_type' => 'success',
+
+        ]);
+
+        
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $userId)
     {
-        //
+         $user = User::findOrFail($userId);
+         $user->delete();
+
+         return redirect()->back()->with([
+            'flash_message' => 'User Deleted successfully',
+            'flash_type' => 'success',
+
+        ]);
+
     }
 }

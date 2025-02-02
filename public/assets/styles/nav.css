@@ -184,4 +184,53 @@ body {
   }
 }
 
+    
+.scroll-icon {
+  display: none;
+  position: fixed;
+  bottom: 8px;
+  right: 8px;
+  cursor: pointer;
+  color: #d4d4d4;
+}
+
+.scroll-icon:hover {
+  animation: icon 1s ease-in-out
+}
+
+@-webkit-keyframes icon {
+  0%{
+      bottom: 8px
+  }
+  25%{
+      bottom: 15px   
+  }
+  50% {
+      bottom: 8px
+  }
+  75%{
+      bottom: 15px   
+  }
+  100% {
+      bottom: 8px
+  }
+}
+@keyframes icon {
+  0%{
+      bottom: 8px
+  }
+  25%{
+      bottom: 15px   
+  }
+  50% {
+      bottom: 8px
+  }
+  75%{
+      bottom: 15px   
+  }
+  100% {
+      bottom: 8px
+  }
+}
+
 

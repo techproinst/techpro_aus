@@ -101,6 +101,33 @@
             <span>Dashboard</span>
           </a>
         </li>
+        
+        <li class="sidebar-item has-sub">
+          <a href="#" class="sidebar-link">
+            <i class="bi bi-stack"></i>
+            <span>User Menu</span>
+          </a>
+
+          <ul class="submenu">
+            <li class="submenu-item">
+              <a href="{{ url('admin/users') }}" class="submenu-link"
+                >View </a
+              >
+            </li>
+            <li class="submenu-item">
+              <a href="{{ url('admin/permissions') }}" class="submenu-link"
+                >Permissions </a
+              >
+            </li>
+            <li class="submenu-item">
+              <a href="{{ url('admin/roles') }}" class="submenu-link"
+                >Roles</a
+              >
+            </li>
+
+
+          </ul>
+        </li>
 
         <li class="sidebar-item has-sub">
           <a href="#" class="sidebar-link">
@@ -190,6 +217,31 @@
               <a href="{{route('show.schedules') }}" class="submenu-link"
                 >View Prices</a>
             </li>
+
+      
+            
+          </ul>
+        </li>
+        <li class="sidebar-item has-sub">
+          <a href="#" class="sidebar-link">
+            <i class="bi bi-hexagon-fill"></i>
+            <span>Log Out</span>
+          </a>
+
+          <ul class="submenu">
+            <li class="submenu-item">
+              <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <a href="{{ route('logout') }}" class="submenu-link"
+                onclick="event.preventDefault();
+                                    this.closest('form').submit();">Log Out</a>
+  
+                    {{ __('Log Out') }}
+              
+              </form>
+             
+            </li>
+            
 
       
             
