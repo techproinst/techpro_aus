@@ -29,7 +29,7 @@
         <hr class="custom-hr full-hr full-payment" />
       </div>
       <div class="col">
-        <h5 class="installment">installmental</h5>
+        <h5 class="installment">Installmental</h5>
         <hr class="custom-hr installment-hr installmental" />
       </div>
     </div>
@@ -94,8 +94,15 @@
     </div>
     <div class="row mb-3 mb-md-4 mb-lg-5 deposit installmental">
       <div class="col">
+            @php
+             $fiftyPercent =  $amountDue * 0.5;
+             $gst = $amountDue * 0.1;
+             $total = $fiftyPercent + $gst;
+             $currencySymbol =  $continent === 'Other' ? '$' : '&#8358;'; 
+              
+            @endphp
         <div class="pt-0 pt-md-2 pt-lg-5 deposit text">
-          <h5>50% Deposit - Enrol your application ($660)</h5>
+          <h5>50% Deposit - Enrol your application {!!$currencySymbol!!}{{number_format($fiftyPercent) }}</h5>
           <h5>by depositing 50% to confirm your enrollment</h5>
         </div>
 
@@ -108,13 +115,7 @@
             <h5 class="pt-3">Total Payable Fee</h5>
           </div>
           <div>
-            @php
-             $fiftyPercent =  $amountDue * 0.5;
-             $gst = $amountDue * 0.1;
-             $total = $fiftyPercent + $gst;
-             $currencySymbol =  $continent === 'Other' ? '$' : '&#8358;'; 
-              
-            @endphp
+            
             <h5>{!!$currencySymbol!!}{{number_format($fiftyPercent) }}</h5>
             <h5>{!!$currencySymbol!!}{{number_format($gst)}}</h5>
             <h5 class="pt-3">{!!$currencySymbol!!}{{number_format($total)}}</h5>
