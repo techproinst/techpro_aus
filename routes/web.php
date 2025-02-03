@@ -10,6 +10,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
 use App\Models\PaymentSchedule;
 use App\Models\Student;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
 
@@ -25,12 +26,20 @@ use Illuminate\Support\Facades\Mail;
 */
 
 
+
 Route::get('/test-email', function () {
-    Mail::raw('This is a test email', function ($message) {
-        $message->to('kareemkazeem@gmail.com')
-                ->subject('Test Email');
-    });
-});
+    try {
+        Mail::raw('This is a test email', function ($message) {
+            $message->to('kareemkazeem@gmail.com')
+                    ->subject('Test Email');
+        });
+
+        return "Email sent successfully!";
+    } catch (\Exception $e) {
+        Log::error('Mail Error: ' . $e->getMessage());
+        return "Failed to send email: " . $e->getMessage();
+    }
+});;
 
 Route::get('/', [StudentController::class, 'loadIndex'])->name('index');
 
