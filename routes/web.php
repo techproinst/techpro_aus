@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Mail;
 Route::get('/test-email', function () {
     try {
         Mail::raw('This is a test email', function ($message) {
-            $message->to('kareemkazeem@gmail.com')
+            $message->to('kareemkazeem100@gmail.com')
                     ->subject('Test Email');
         });
 
