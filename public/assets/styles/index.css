@@ -163,6 +163,7 @@
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease-in-out;
+  border-color: #1a1a47;;
 }
 .number-wrapper {
   position: absolute;
@@ -402,4 +403,9 @@
 
 .review-btn:active{
   transform: translateX(0);
+}
+
+.whatsapp {
+  text-decoration: none;
+  color: white;
 }

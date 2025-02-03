@@ -2,9 +2,9 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
+  <title>TechPro :: AU</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
@@ -32,7 +32,7 @@
     <div class="container h-100">
       <div class="row h-100 align-items-center">
         <div class="col-2 d-flex align-items-center text-white">
-          <i class="bi bi-whatsapp"></i>
+          <a class="whatsapp" href="https://wa.me/61405380435"><i class="bi bi-whatsapp"></i></a>
           <i class="bi bi-envelope-arrow-down envelope ms-4"></i>
         </div>
         <div class="col-10 text-end text-white align-items-center">
@@ -271,7 +271,7 @@
               <div class="social-wrapper">
                 <h5 class="card-title">Kabir Akinola</h5>
                 <div class="social-icons">
-                  <a href="#"><i class="bi bi-twitter"></i></a>
+                
                   <a href="#"><i class="bi bi-facebook"></i></a>
                   <a href="#"><i class="bi bi-linkedin"></i></a>
                 </div>
@@ -287,7 +287,7 @@
               <div class="social-wrapper ">
                 <h5 class="card-title">Aisha Olayiwola</h5>
                 <div class="social-icons">
-                  <a href="#"><i class="bi bi-twitter"></i></a>
+                 
                   <a href="#"><i class="bi bi-facebook"></i></a>
                   <a href="#"><i class="bi bi-linkedin"></i></a>
                 </div>
@@ -303,7 +303,7 @@
               <div class="social-wrapper">
                 <h5 class="card-title">Dr, Olukomaiya</h5>
                 <div class="social-icons">
-                  <a href="#"><i class="bi bi-twitter"></i></a>
+               
                   <a href="#"><i class="bi bi-facebook"></i></a>
                   <a href="#"><i class="bi bi-linkedin"></i></a>
                 </div>
@@ -658,6 +658,7 @@
       </div>
       <div class="row">
         <div class="col d-flex flex-wrap justify-content-center footer-icons">
+          <a href=""><i class="bi bi-instagram"></i></a>
           <a href="#"><i class="bi bi-twitter"></i></a>
           <a href="#"><i class="bi bi-facebook"></i></a>
           <a href="#"><i class="bi bi-linkedin"></i></a>

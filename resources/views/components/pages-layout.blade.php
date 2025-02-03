@@ -129,6 +129,7 @@
           </div>
           <div class="row">
             <div class="col d-flex flex-wrap justify-content-center footer-icons">
+              <a href=""><i class="bi bi-instagram"></i></a> 
               <a href="#"><i class="bi bi-twitter"></i></a>
               <a href="#"><i class="bi bi-facebook"></i></a>
               <a href="#"><i class="bi bi-linkedin"></i></a>
