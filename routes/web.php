@@ -11,6 +11,7 @@ use App\Http\Controllers\UserController;
 use App\Models\PaymentSchedule;
 use App\Models\Student;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,14 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+Route::get('/test-email', function () {
+    Mail::raw('This is a test email', function ($message) {
+        $message->to('kareemkazeem100@gmail.com')
+                ->subject('Test Email');
+    });
+});
 
 Route::get('/', [StudentController::class, 'loadIndex'])->name('index');
 
