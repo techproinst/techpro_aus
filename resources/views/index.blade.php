@@ -94,8 +94,10 @@
             @endif
             @if($errors->any()) 
             @foreach ($errors->all() as $error )
-            {{ $error }} <br>
-              
+            <span class="text-danger">
+              {{ $error }} <br>
+
+            </span>  
             @endforeach   
             @endif
         </div>

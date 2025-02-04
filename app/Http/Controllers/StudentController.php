@@ -231,7 +231,7 @@ class StudentController extends Controller
             $request->validate([
                 
                 'comment' => ['required', 'string', 'max:20'],
-                'passport' => 'required|mimes:jpg,jpeg,png,gif,pdf|max:1024',
+                'passport' => 'required|mimes:jpg,jpeg,png,gif|max:1024',
 
             ]);
 
