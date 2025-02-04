@@ -21,11 +21,11 @@
                 <p>The following are your application details:</p>
                 <h6>Name: {{ ucfirst(strtolower($firstname)) }} {{ ucfirst(strtolower($lastname)) }}</h6>
                 <h6>Email Address: {{ $email }}</h6>
-                <h6>Course applied: {{ $course }}</h6>
+                <h6>Course applied: {{Str::upper($course)}}</h6>
                 
     
             <a href="{{ route('payment', ['student' => $id]) }}">
-              <button style="background-color:  #fc3468; color:white" type="button" class="btn">proceed to make payments</button>
+              <button style="background-color:  #fc3468; color:white" type="button" class="btn">Proceed to make payments</button>
             </a>
             
         </div>

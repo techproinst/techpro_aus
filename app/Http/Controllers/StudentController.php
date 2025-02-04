@@ -218,32 +218,39 @@ class StudentController extends Controller
 
        $student = Student::where('app_no', $request->app_no)->first();
 
-       if(!$student) {
+            if(!$student) {
 
-            return redirect()->back()->with([
-                'flash_message' => 'Invalid application number',
-                'flash_type' => 'danger'
+                    return redirect()->back()->with([
+                        'flash_message' => 'Invalid application number',
+                        'flash_type' => 'danger'
+
+                    ]);
+
+            }
+
+            $request->validate([
+                
+                'comment' => ['required', 'string', 'max:20'],
+                'passport' => 'required|mimes:jpg,jpeg,png,gif,pdf|max:1024',
 
             ]);
 
-       }
+        // $validator = Validator::make($request->all(), [
+        //     'comment' => ['required', 'string', 'max:20'],
+        //     'passport' => 'required|mimes:jpg,jpeg,png,gif,pdf|max:1024',
+        // ]);
 
-        $validator = Validator::make($request->all(), [
-            'comment' => ['required', 'string', 'max:20'],
-            'passport' => 'required|mimes:jpg,jpeg,png,gif,pdf|max:1024',
-        ]);
+        // if($validator->fails()) {
 
-        if($validator->fails()) {
-
-            return redirect()->back()->with([
-                'flash_message' => 'Validation Failed, All input are required!!',
-                'flash_type' => 'danger',
+        //     return redirect()->back()->with([
+        //         'flash_message' => 'Validation Failed, All input are required!!',
+        //         'flash_type' => 'danger',
     
-            ]);
+        //     ]);
             
            
 
-        };
+        // };
 
          
            

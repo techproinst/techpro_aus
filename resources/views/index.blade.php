@@ -92,6 +92,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
+            @if($errors->any()) 
+            @foreach ($errors->all() as $error )
+            {{ $error }} <br>
+              
+            @endforeach   
+            @endif
         </div>
       </div>
     </div>
@@ -524,12 +530,12 @@
           </div>
         </div>
         <div class="col-lg-5">  
-            @if (session('flash_message'))
+            {{-- @if (session('flash_message'))
             <div class="alert alert-{{ session('flash_type', 'info') }} alert-dismissible fade show" role="alert">
                 {{ session('flash_message') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-            @endif
+            @endif --}}
           <div id="contact" class="form-wrapper">
             <h6>Schedule Your</h6>
             <h1 class="free-consult">Free Consultation</h1>
@@ -596,6 +602,12 @@
               <div class="mb-3 mt-3">
                 <label for="formFile" class="form-label">Upload Image</label>
                 <input class="form-control" name="passport" type="file" id="formFile" required>
+                @error('image')
+                <span class="text-danger">
+                  {{ $message }}
+                </span>
+                  
+                @enderror
               </div>
 
               <div class="mb-3">
