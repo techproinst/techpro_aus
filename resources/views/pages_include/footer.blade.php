@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col text-center mt-3">
-        {{-- <img src="{{ asset('assets/images/image 1.png') }}" alt=""> --}}
+        <img width="15%" src="{{ asset('assets/images/white-logo.png') }}" alt=""> 
       </div>
     </div>
     <div class="row">

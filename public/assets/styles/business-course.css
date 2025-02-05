@@ -1,0 +1,68 @@
+.middle {
+  margin-top: -60px
+}
+.middle-btn {
+margin-top: 120px;
+}
+.last {
+margin-bottom: 60px;
+
+}
+
+.last-btn {
+margin-top:70px; 
+}
+.start {
+margin-bottom: 60px;
+}
+
+.start-btn {
+margin-top: 200px;
+}
+
+@media (max-width:1200px) {
+.enrol-btn {
+  padding: 10px 80px;
+}
+.complete-package-btn{
+  padding: 10px 80px;
+
+}
+
+}
+
+@media (max-width:990px) {
+.start {
+  margin-top: -60px;
+  margin-bottom: -3px
+}
+
+.start-btn {
+margin-top: 320px;
+}
+.last {
+margin-top: 20px;
+
+}
+
+
+}
+
+@media (max-width:767px) {
+.start {
+  margin-top: -85px;
+  margin-bottom: 80px
+}
+  .start-btn {
+  margin-top: 60px;
+}
+
+.middle-btn {
+margin-top: 80px;
+
+}
+
+
+
+
+}

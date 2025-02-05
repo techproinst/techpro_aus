@@ -10,6 +10,10 @@
   <x-slot:course_title>
     Business Analysis
   </x-slot:course_title>
+  <x-slot:styles>
+    <link rel="stylesheet" href="{{ asset('assets/styles/business-course.css') }}">
+  </x-slot:styles>
+  
 
   <div class="container">
     <div class="row mt-4">
@@ -21,7 +25,7 @@
 
     <div class="row main">
       <div  class="col-sm-12 col-md-6 col-lg-4 d-flex justify-content-center mb-4">
-        <div class="card basic-package-margin" style="width: 20rem; ">
+        <div class="card basic-package-margin start" style="width: 20rem; ">
           <div class="container pt-3">
             <img src="{{ asset('assets/images/Single2.png') }}" class="card-img-top" alt="...">
           </div>
@@ -49,7 +53,7 @@
              
             </ul>
             
-            <div class="text-center basic-package">
+            <div class="text-center basic-package start-btn">
               <hr>
               <a class="enrol-btn" href="{{ route('application.form', ['course' => $basicPackage['course_id']])}}">Enroll Now</a>
             </div>
@@ -58,7 +62,7 @@
         </div>
       </div>
       <div  class="col-sm-12 col-md-6 col-lg-4 d-flex justify-content-center mb-4">
-        <div class="card complete-package-margin" style="width: 20rem;">
+        <div class="card complete-package-margin middle" style="width: 20rem;">
           <div class="container pt-3">
             <img src="{{ asset('assets/images/business-analysis.png') }}" class="card-img-top" alt="...">
           </div>
@@ -95,7 +99,7 @@
                 <span class="checkmark">✓</span>Product Owner exam voucher (Scrum Institute)
               </li>
             </ul>
-            <div class="text-center complete_package">
+            <div class="text-center complete_package middle-btn">
               <hr>
               <a class="complete-package-btn" href="{{ route('application.form', ['course' => $completePackage['course_id']])}}">Enroll Now</a>
             </div>
@@ -104,7 +108,7 @@
         </div>
       </div>
       <div   class="col-sm-12 col-md-6 col-lg-4 d-flex justify-content-center mb-4">
-        <div class="card job-package-margin" style="width: 20rem;">
+        <div class="card job-package-margin last" style="width: 20rem;">
           <div class="container pt-3">
             <img src="{{ asset('assets/images/Single1.png') }}" class="card-img-top" alt="...">
           </div>
@@ -125,9 +129,18 @@
               <li>
                 <span class="checkmark">✓</span>CV  revamping and interview Preparation support
               </li>
+              <li>
+                <span class="checkmark">✓</span>Srum Master certification training
+              </li>
+              <li>
+                <span class="checkmark">✓</span>Practice with Scrum Master past questions
+              </li>
+              <li>
+                <span class="checkmark">✓</span>Scrum Master exam voucher(Scrum Institute)
+              </li>
              
             </ul>
-            <div class="text-center  job-package">
+            <div class="text-center  job-package last-btn">
               <hr>
               <a class="enrol-btn" href="{{ route('application.form', ['course' => $jobPackage['course_id']])}}">Enroll Now</a>
             </div>

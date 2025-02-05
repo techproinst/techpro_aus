@@ -1,0 +1,95 @@
+.middle {
+  margin-top: -60px;
+}
+.middle-btn {
+  margin-top: 199px;
+}
+.start {
+  margin-bottom: 70px;
+}
+.start-btn {
+  margin-top: 195px;
+}
+
+.last {
+  margin-bottom: 95px;
+}
+.last-btn {
+  margin-top: 195px;
+}
+
+@media (max-width:1205px) {
+.enrol-btn {
+  padding: 10px 80px;
+}
+.complete-package-btn{
+  padding: 10px 80px;
+
+}
+
+}
+
+
+@media (max-width:991px) {
+.start {
+  margin-top: -60px;
+  margin-bottom: 700px
+}
+
+.start-btn {
+margin-top: 320px;
+}
+.middle {
+  margin-bottom: 700px;
+}
+.middle-btn {
+  margin-top: 190px;
+}
+
+
+.last {
+  margin-top: -660px;
+  margin-bottom: 40px
+}
+
+.last-btn {
+  margin-top: 190px;
+}
+
+
+}
+
+@media (max-width:767px) {
+.start {
+  margin-top: -85px;
+  margin-bottom: 80px
+}
+  .start-btn {
+  margin-top: 60px;
+}
+
+  .middle-btn {
+  margin-top: 80px;
+
+}
+
+.last-btn {
+  margin-top: 90px;
+}
+
+
+.last {
+  margin-bottom: 200px;
+}
+
+.scrum-main {
+  margin-bottom: -60px;
+}
+
+
+
+
+
+
+} 
+
