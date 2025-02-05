@@ -10,16 +10,13 @@ use Stevebauman\Location\Facades\Location;
 
 class ApplicationService 
 {
-     public function getLocation() 
-     {
+    public function getLocation()
+    {
         $position = Location::get(request()->ip());
-        
-        Log::info('User Position: ' . $position);
-
-        if ($position && isset($position->countryCode)) { // Ensure position and countryCode exist
+    
+        if ($position && isset($position->countryCode)) {
             $countryCode = $position->countryCode;
-
-            Log::info('User CountryCode'. $countryCode);
+            Log::info("User Country Code Detected: " . $countryCode);
             
             $continents = [
                 'AF' => 'Africa', 'DZ' => 'Africa', 'AO' => 'Africa', 'BJ' => 'Africa', 'BW' => 'Africa',
@@ -34,30 +31,26 @@ class ApplicationService
                 'SO' => 'Africa', 'ZA' => 'Africa', 'SS' => 'Africa', 'SD' => 'Africa', 'TZ' => 'Africa',
                 'TG' => 'Africa', 'TN' => 'Africa', 'UG' => 'Africa', 'EH' => 'Africa', 'ZM' => 'Africa',
                 'ZW' => 'Africa',
-        
+    
                 // Other continents
                 'US' => 'North America', 'CA' => 'North America', 'MX' => 'North America',
                 'BR' => 'South America', 'AR' => 'South America', 'CL' => 'South America',
                 'DE' => 'Europe', 'FR' => 'Europe', 'IT' => 'Europe',
                 'CN' => 'Asia', 'JP' => 'Asia', 'IN' => 'Asia',
-                
-                // Oceania (Expanded List)
-                'AU' => 'Oceania', 'NZ' => 'Oceania', 'FJ' => 'Oceania', 'PG' => 'Oceania', 'WS' => 'Oceania'
+                'AU' => 'Oceania', 'NZ' => 'Oceania'
             ];
-        
-            $continent = array_key_exists($countryCode, $continents) ? $continents[$countryCode] : 'Other';
-        } else {
-            $continent = "Other";
-        }
-
-        Log::info('User Continent: ' . $continent);
-        
-        return $continent;
-        
-
-
-     }
-
+    
+            // Check if country code exists in the continents list
+            $continent = $continents[$countryCode] ?? 'Other';
+    
+            Log::info("User Continent Detected: " . $continent);
+            return $continent;
+        } 
+    
+        Log::info("User Location Not Found, Defaulting to 'Other'");
+        return "Other";
+    }
+    
      public function getCountry()
      {
         $position = Location::get(request()->ip());
@@ -166,7 +159,10 @@ class ApplicationService
         
         $continent = $this->getLocation() ?? 'Other';
 
-        Log::info('User location detected: '. $continent);
+         if($continent !== 'Africa') {
+
+            $continent = 'Other';
+         }
 
         $scheduleAmount = json_decode($amount, true);
 
