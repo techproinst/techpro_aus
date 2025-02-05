@@ -318,7 +318,7 @@
                   <a href="#"><i class="bi bi-linkedin"></i></a>
                 </div>
               </div>
-              <p class="desc-text">Senior Reporting Officer / Mentor</p>
+              <p class="desc-text">Senior Data Governance Officer / Mentor</p>
             </div>
           </div>
         </div>

@@ -5,51 +5,55 @@ namespace  App\Services;
 use App\Models\PaymentSchedule;
 use App\Models\Student;
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Stevebauman\Location\Facades\Location;
 
 class ApplicationService 
 {
      public function getLocation() 
      {
-            $position = Location::get(request()->ip());
+        $position = Location::get(request()->ip());
+        
+        Log::info('User Position: ' . $position);
 
-            if ($position) {
+        if ($position && isset($position->countryCode)) { // Ensure position and countryCode exist
+            $countryCode = $position->countryCode;
 
-                $countryCode = $position->countryCode ?? null;
+            Log::info('User CountryCode'. $countryCode);
+            
+            $continents = [
+                'AF' => 'Africa', 'DZ' => 'Africa', 'AO' => 'Africa', 'BJ' => 'Africa', 'BW' => 'Africa',
+                'BF' => 'Africa', 'BI' => 'Africa', 'CM' => 'Africa', 'CV' => 'Africa', 'CF' => 'Africa',
+                'TD' => 'Africa', 'KM' => 'Africa', 'CD' => 'Africa', 'DJ' => 'Africa', 'EG' => 'Africa',
+                'GQ' => 'Africa', 'ER' => 'Africa', 'SZ' => 'Africa', 'ET' => 'Africa', 'GA' => 'Africa',
+                'GM' => 'Africa', 'GH' => 'Africa', 'GN' => 'Africa', 'GW' => 'Africa', 'CI' => 'Africa',
+                'KE' => 'Africa', 'LS' => 'Africa', 'LR' => 'Africa', 'LY' => 'Africa', 'MG' => 'Africa',
+                'MW' => 'Africa', 'ML' => 'Africa', 'MR' => 'Africa', 'MU' => 'Africa', 'YT' => 'Africa',
+                'MA' => 'Africa', 'MZ' => 'Africa', 'NA' => 'Africa', 'NE' => 'Africa', 'NG' => 'Africa',
+                'RW' => 'Africa', 'ST' => 'Africa', 'SN' => 'Africa', 'SC' => 'Africa', 'SL' => 'Africa',
+                'SO' => 'Africa', 'ZA' => 'Africa', 'SS' => 'Africa', 'SD' => 'Africa', 'TZ' => 'Africa',
+                'TG' => 'Africa', 'TN' => 'Africa', 'UG' => 'Africa', 'EH' => 'Africa', 'ZM' => 'Africa',
+                'ZW' => 'Africa',
+        
+                // Other continents
+                'US' => 'North America', 'CA' => 'North America', 'MX' => 'North America',
+                'BR' => 'South America', 'AR' => 'South America', 'CL' => 'South America',
+                'DE' => 'Europe', 'FR' => 'Europe', 'IT' => 'Europe',
+                'CN' => 'Asia', 'JP' => 'Asia', 'IN' => 'Asia',
+                
+                // Oceania (Expanded List)
+                'AU' => 'Oceania', 'NZ' => 'Oceania', 'FJ' => 'Oceania', 'PG' => 'Oceania', 'WS' => 'Oceania'
+            ];
+        
+            $continent = array_key_exists($countryCode, $continents) ? $continents[$countryCode] : 'Other';
+        } else {
+            $continent = "Other";
+        }
 
-                $continents = [
-                    'AF' => 'Africa', 'DZ' => 'Africa', 'AO' => 'Africa', 'BJ' => 'Africa', 'BW' => 'Africa',
-                    'BF' => 'Africa', 'BI' => 'Africa', 'CM' => 'Africa', 'CV' => 'Africa', 'CF' => 'Africa',
-                    'TD' => 'Africa', 'KM' => 'Africa', 'CD' => 'Africa', 'DJ' => 'Africa', 'EG' => 'Africa',
-                    'GQ' => 'Africa', 'ER' => 'Africa', 'SZ' => 'Africa', 'ET' => 'Africa', 'GA' => 'Africa',
-                    'GM' => 'Africa', 'GH' => 'Africa', 'GN' => 'Africa', 'GW' => 'Africa', 'CI' => 'Africa',
-                    'KE' => 'Africa', 'LS' => 'Africa', 'LR' => 'Africa', 'LY' => 'Africa', 'MG' => 'Africa',
-                    'MW' => 'Africa', 'ML' => 'Africa', 'MR' => 'Africa', 'MU' => 'Africa', 'YT' => 'Africa',
-                    'MA' => 'Africa', 'MZ' => 'Africa', 'NA' => 'Africa', 'NE' => 'Africa', 'NG' => 'Africa',
-                    'RW' => 'Africa', 'ST' => 'Africa', 'SN' => 'Africa', 'SC' => 'Africa', 'SL' => 'Africa',
-                    'SO' => 'Africa', 'ZA' => 'Africa', 'SS' => 'Africa', 'SD' => 'Africa', 'TZ' => 'Africa',
-                    'TG' => 'Africa', 'TN' => 'Africa', 'UG' => 'Africa', 'EH' => 'Africa', 'ZM' => 'Africa',
-                    'ZW' => 'Africa',
-
-                    // Other continents
-                    'US' => 'North America', 'CA' => 'North America', 'MX' => 'North America',
-                    'BR' => 'South America', 'AR' => 'South America', 'CL' => 'South America',
-                    'DE' => 'Europe', 'FR' => 'Europe', 'IT' => 'Europe',
-                    'CN' => 'Asia', 'JP' => 'Asia', 'IN' => 'Asia',
-                    'AU' => 'Oceania', 'NZ' => 'Oceania',
-                ];
-
-                $continent = $continents[$countryCode] ?? 'Other';
-
-                return $continent;
-
-                } else {
-
-                    return "Other";
-
-
-                }
-
+        Log::info('User Continent: ' . $continent);
+        
+        return $continent;
+        
 
 
      }
@@ -162,9 +166,17 @@ class ApplicationService
         
         $continent = $this->getLocation() ?? 'Other';
 
+        Log::info('User location detected: '. $continent);
+
         $scheduleAmount = json_decode($amount, true);
 
-        $amountDue = $scheduleAmount[$continent];
+        $amountDue = $scheduleAmount[$continent] ?? $scheduleAmount['Other'] ?? null;
+
+        if($amountDue === null) {
+            Log::error('Amount due not found for  for continent' . $continent);
+
+            abort(404);
+        }
 
         return [$amountDue, $continent];
 
