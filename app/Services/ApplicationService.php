@@ -160,7 +160,7 @@ class ApplicationService
     public function getScheduleAmount($amount) 
     {
         
-        $continent = $this->getLocation() ?? 'other';
+        $continent = $this->getLocation() ?? 'Other';
 
         $scheduleAmount = json_decode($amount, true);
 
