@@ -82,7 +82,7 @@
             @php
             $gst = $amountDue * 0.1; // GST is 10% of the amount due
             $total = $amountDue + $gst;  
-            $currencySymbol =  $continent === 'Other' ? '$' : '&#8358;';       
+            $currencySymbol =  $continent === 'Africa' ? '&#8358;' : '$';       
             @endphp 
 
              <h5>{!!$currencySymbol!!}{{number_format($amountDue) }}</h5>
@@ -98,7 +98,7 @@
              $fiftyPercent =  $amountDue * 0.5;
              $gst = $amountDue * 0.1;
              $total = $fiftyPercent + $gst;
-             $currencySymbol =  $continent === 'Other' ? '$' : '&#8358;'; 
+             $currencySymbol =  $continent === 'Africa' ? '&#8358;' : '$'; 
               
             @endphp
         <div class="pt-0 pt-md-2 pt-lg-5 deposit text">

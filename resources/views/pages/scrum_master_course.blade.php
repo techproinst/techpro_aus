@@ -29,7 +29,7 @@
           </div>
           <div class="card-body">
             @php
-            $currencySymbol = $location === 'Other' ? '$' : '&#8358;';            
+            $currencySymbol = $location === 'Africa' ? '&#8358;' : '$';            
             @endphp
 
            <h2>{!!$currencySymbol!!}{{number_format($basicPackage['price'] )}}</h2>
