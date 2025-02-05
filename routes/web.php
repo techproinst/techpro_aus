@@ -48,12 +48,14 @@ Route::get('/details', function() {
     return view('pages.details_form');
 })->name('page.details');
 
-
-
-
 Route::get('/quiz', function() {
     return view('pages.quiz');
 })->name('quiz');
+
+
+Route::get('/register-page', function() {
+    return view('pages.register');
+})->name('register.page');
 
 Route::post('/details-form', [StudentController::class, 'showDetails'])->name('details.post');
 Route::get('/outstanding-fees/{student}', [StudentController::class, 'outstanding' ])->name('outstanding.payment');

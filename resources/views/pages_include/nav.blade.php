@@ -68,7 +68,7 @@
         </li>
       </ul>
       <a class="login-btn me-3 mt-2" href="{{ route('page.details') }}">Log In</a>
-      <a class="register-btn mt-2" href="">Register Now</a>
+      <a class="register-btn mt-2" href="{{ route('register.page') }}">Register Now</a>
     </div>
   </div>
 </nav>

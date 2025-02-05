@@ -78,7 +78,7 @@
           </li>
         </ul>
         <a class="login-btn me-3 mt-2" href="{{ route('page.details') }}">Log In</a>
-        <a class="register-btn mt-2" href="#register">Register Now</a>
+        <a class="register-btn mt-2" href="{{ route('register.page') }}">Register Now</a>
       </div>
     </div>
   </nav>
@@ -129,7 +129,7 @@
     <div class="row">
       <div class="col text-center">
         <p class="mt-5">
-          <img class="img-tick" src="{{ asset('assets/images/tick-circle.png') }}" alt="" />Discover
+          <img class="img-tick mb-1" src="{{ asset('assets/images/tick-circle.png') }}" alt="" />Discover
           the perfect course for you by taking our personality test.
           <span><a class="test" href="{{ route('quiz') }}">Take a test</a> </span>
         </p>
@@ -636,62 +636,9 @@
   </div>
 </div>
 
-  <footer class="footer mt-4">
-    <div class="container">
-      <div class="row">
-        <div class="col text-center mt-3">
-          <img src="{{ asset('assets/images/image 1.png') }}" alt="">
-        </div>
-      </div>
-      <div class="row">
-        <div class="col text-center text-white mb-5 mt-2">
-          <h5 class="footer-text">
-            We bridge the gap in the tech industry, helping candidates transition into tech, even without prior
-            experience, through expert training and hands-on real-life projects.
-          </h5>
-          <hr>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col d-flex flex-wrap justify-content-center footer-links">
-          <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Membership</a></li>
-            <li><a href="#">Business Analysis</a></li>
-            <li><a href="#">Scrum Master</a></li>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">Terms & Conditions</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col d-flex flex-wrap justify-content-center footer-links2">
-          <ul>
-            <li class="me-5"><a href="#">Refund Policy</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col d-flex flex-wrap justify-content-center footer-icons">
-          <a href=""><i class="bi bi-instagram"></i></a>
-          <a href="#"><i class="bi bi-twitter"></i></a>
-          <a href="#"><i class="bi bi-facebook"></i></a>
-          <a href="#"><i class="bi bi-linkedin"></i></a>
-        </div>
-      </div>
-      <div class="row pt-4">
-        <div class="col text-center certification">
-          <a href="#">Certification</a>
-        </div>
-      </div>
-      <div class="row pt-4">
-        <div class="col text-center text-white">
-          <p>© Copyright 2025 TechPro. All rights reserved</p>
-        </div>
-      </div>
-    </div>
-  </footer>
+ 
+
+  @include('pages_include.footer')
 
 
 

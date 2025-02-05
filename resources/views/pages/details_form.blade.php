@@ -36,7 +36,7 @@
         
           <form action="{{ route('details.post') }}" method="POST">
             @csrf
-            <label for="app_no" class="form-label mt-2 label-name">View Application Details / Verify Payments</label>
+            <label for="app_no" class="form-label mt-2 label-name">Log in with Application ID</label>
             <input style="width: 100%" type="text" class="form-control" value="{{ old('app_no') }}" name="app_no"
               placeholder="APP/2024/123456" required>
             <span class="text-danger">

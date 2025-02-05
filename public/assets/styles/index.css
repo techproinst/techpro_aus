@@ -1,5 +1,4 @@
 
-
 .intro-text {
   word-spacing: 10px;
   font-size: 50px;
@@ -109,11 +108,37 @@
   }
 
 .test {
-  color: #e02d5b;
-  text-decoration: none;
+  color: white;
+  background-color: #e02d5b;
+  border-radius: 8px;
+  font-size: 16px;
+  text-decoration: none;  
+  padding: 8px 14px;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  display: inline-block;
 }
+.test:hover {
+  background-color: whitesmoke;
+  color: black;
+  border: 1px solid #e02d5b;
+  transform: translateX(-3px);
+
+}
+
+@media (max-width:748px) {
+   .test {
+    font-size: 12px;
+    padding: 6px 12px;
+   }
+
+}
+
+
+
+
 .img-tick {
-  vertical-align: top;
+  vertical-align: middle;
 }
 .partners-wrapper {
   background-color: #fff6f6;
@@ -154,7 +179,7 @@
 .index-course-card:hover {
   transform: scale(1.05);
   cursor: pointer;
-  border: 1px solid #e02d5b;
+  border: 1px solid #1a1a47;
 }
 
 .feauture-card {
@@ -228,7 +253,7 @@
 }
 
 .title {
-  color: #1a1a47;
+  color: #e02d5b;
   font-size: 2.5rem;
   font-weight: bold;
 }
