@@ -27,19 +27,9 @@ use Illuminate\Support\Facades\Mail;
 
 
 
-Route::get('/test-email', function () {
-    try {
-        Mail::raw('This is a test email', function ($message) {
-            $message->to('kareemkazeem100@gmail.com')
-                    ->subject('Test Email');
-        });
 
-        return "Email sent successfully!";
-    } catch (\Exception $e) {
-        Log::error('Mail Error: ' . $e->getMessage());
-        return "Failed to send email: " . $e->getMessage();
-    }
-});;
+
+
 
 Route::get('/', [StudentController::class, 'loadIndex'])->name('index');
 
@@ -47,6 +37,8 @@ Route::get('/', [StudentController::class, 'loadIndex'])->name('index');
 Route::get('/details', function() {
     return view('pages.details_form');
 })->name('page.details');
+
+Route::get('/application/message/{student}', [StudentController::class, 'loadMessage'])->name('application.message');
 
 Route::get('/quiz', function() {
     return view('pages.quiz');
@@ -65,6 +57,10 @@ Route::get('/scrum-master', [CourseController::class, 'showScrumMaster'])->name(
 
 Route::get('/application/{course}', [CourseController::class, 'getApplicationForm'] )->name('application.form');
 Route::post('/application/form', [StudentController::class, 'store'])->name('application.submit');
+
+Route::get('/application/new/{course}', [CourseController::class, 'loadNewCourse'] )->name('application.newCourse');
+Route::post('/application/new-course/form', [StudentController::class, 'getNewCourseDetails'])->name('newCourse.submit');
+Route::get('/payment/new-course/{student}', [PaymentController::class, 'showNewCourse'])->name('payment.newCourse');
 
 Route::get('/payment/{student}', [PaymentController::class, 'index'])->name('payment');
 Route::get('/payment/upload/{student}', [PaymentController::class, 'showPaymentUpload'])->name('payment.show');

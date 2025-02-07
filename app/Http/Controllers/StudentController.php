@@ -24,7 +24,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::with('course')->get();
+        $students = Student::with('courses')->get();
 
         return view('admin.students.view',compact('students'));
 
@@ -33,7 +33,7 @@ class StudentController extends Controller
 
     public function loadIndex()
     {
-        $students =  Student::with('course')->where('review_status', Student::STATUS_APPROVED)->get();
+        $students =  Student::with('courses')->where('review_status', Student::STATUS_APPROVED)->get();
 
         return view('index', compact('students'));
     }
@@ -56,7 +56,7 @@ class StudentController extends Controller
             'course_id' => ['required', 'exists:courses,id'],
             'firstname' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'unique:students'],
+            'email' => ['required', 'string', 'email', 'unique:students,email,NULL,id,deleted_at,NULL'],
             'password' => ['required', 'string', 'min:8','confirmed'],
             'password_confirmation' => ['required',],
         ]);
@@ -69,13 +69,35 @@ class StudentController extends Controller
 
             DB::beginTransaction();
 
+            unset($validated['course_id']); 
+
              $std = Student::create($validated);
 
-             $student = $applicationService->getStudent($std->id);
+             if(is_array($request->course_id)) {
 
+                $std->courses()->attach($request->course_id);
+
+             } else {
+
+                $std->courses()->attach([$request->course_id]);
+
+
+             }
+
+             $student = Student::with('courses')->find($std->id);
+
+             $courses = $student->courses;
+
+             
+
+            // $courseNames = $courses->pluck('name')->toArray();
+             
+            // $student = $applicationService->getStudent($std->id);
+        
             try {
+  
+                Mail::to($student->email)->send(new ApplicationNotification(firstname: $student->firstname, lastname: $student->lastname, email: $student->email,  courses:$courses,  id: $student->id, )); 
 
-               Mail::to($student->email)->send(new ApplicationNotification($student->firstname, $student->lastname, $student->email, $student->course->name,  $student->id, $student->course->id)); 
 
 
             } catch(Exception $err) {
@@ -90,10 +112,12 @@ class StudentController extends Controller
     
                 ]);
             }
-
+           
             DB::commit();
 
-            return view('application.message', compact('student'));
+
+            return redirect()->route('application.message', ['student' => $student->id]);
+
 
 
         } catch(Exception $err) {
@@ -112,15 +136,20 @@ class StudentController extends Controller
         }
 
 
+    }
 
 
+    public function loadMessage(Student $student)
+    { 
+        
+        return view('application.message', compact('student'));
 
     }
 
 
-    public function showDetails(Request $request) 
+    public function showDetails(Request $request, ApplicationService $applicationService) 
     {
-          $student = Student::with('course')->where('app_no', $request->app_no)->first();
+          $student = Student::with('courses')->where('app_no', $request->app_no)->first();
 
           if(!$student) {
 
@@ -132,7 +161,7 @@ class StudentController extends Controller
 
           }
 
-          $payments = Payment::with('paymentSchedule')
+          $payments = Payment::with('paymentSchedules')
                               ->where('student_id', $student->id)
                               ->where('status', Payment::Active)
                               ->get();
@@ -142,45 +171,20 @@ class StudentController extends Controller
             return view('pages.application.details', compact('student'));
          }
 
-        $scheduleId = $student->course_id;
 
-        $schedule = PaymentSchedule::where('course_id', $scheduleId)->first();
 
-        $amountDue = json_decode($schedule->amount);
+         $courseIds = $applicationService->getCourseIds($student);
 
-    
+         $paymentSchedules = $applicationService->getPaymentSchedule($courseIds);
+
+         list($amountDue, $continent) = $applicationService->getScheduleAmount($paymentSchedules);
 
         $currency = $payments->first()->currency;
 
-        $amountScheduled =  $currency === 'usd' ? $amountDue->Other : $amountDue->Africa;
-
         $paid = $payments->sum('amount');
 
-        $balance = $amountScheduled - $paid;
+        $balance = $amountDue - $paid;
 
-    
-
-            /*
-                    $currency = [];
-
-                    $amountDue = json_decode($schedule->amount);
-
-                    $paid = 0;
-
-                    foreach ($payments as $index => $payment) {
-
-                        $currency[] = $payment->currency;  
-                        $paid += $payment->amount;
-
-                    }
-
-                    $amountScheduled = $currency[0] === 'usd' ? $amountDue->other : $amountDue->africa;
-
-                    $balance = $amountScheduled - $paid;
-
-
-                    return $balance;
-            */
          return view('pages.details', compact(
             'student',
             'payments',
@@ -231,27 +235,11 @@ class StudentController extends Controller
             $request->validate([
                 
                 'comment' => ['required', 'string', 'max:20'],
-                'passport' => 'required|mimes:jpg,jpeg,png,gif|max:1024',
+                'passport' => 'required|mimes:jpg,jpeg,png,|max:1024',
 
             ]);
 
-        // $validator = Validator::make($request->all(), [
-        //     'comment' => ['required', 'string', 'max:20'],
-        //     'passport' => 'required|mimes:jpg,jpeg,png,gif,pdf|max:1024',
-        // ]);
-
-        // if($validator->fails()) {
-
-        //     return redirect()->back()->with([
-        //         'flash_message' => 'Validation Failed, All input are required!!',
-        //         'flash_type' => 'danger',
-    
-        //     ]);
-            
-           
-
-        // };
-
+      
          
            
          $upload = null;
@@ -518,6 +506,140 @@ class StudentController extends Controller
         
     }
 
+
+    public function getNewCourseDetails(Request $request, ApplicationService $applicationService) 
+    {
+        $request->validate([
+            'course_id' => ['required', 'exists:courses,id'],
+        ]);
+
+        $student = Student::with('courses')->where('app_no', $request->app_no)->first();
+
+        if(!$student) {
+
+            return redirect()->back()->with([
+                'flash_message' => 'Invalid Appliction Number!!',
+                'flash_type' => 'danger',
+
+
+            ]);
+
+        }
+
+          // Ensure the student is not already enrolled in the course
+       // $alreadyEnrolled = $student->courses()->whereIn('courses.id', (array) $request->course_id)->exists();
+
+
+        $alreadyEnrolled = $student->courses()->whereIn('courses.id', (array) $request->course_id)->exists();
+
+        if($alreadyEnrolled) {
+
+            return redirect()->back()->with([
+                'flash_message' => 'You have already enrolled for this course, kindly select another course',
+                'flash_type' => 'danger',
+            ]);
+
+        }
+
+        $payments = Payment::with('paymentSchedules')
+        ->where('student_id', $student->id)
+        ->where('status', Payment::Active)
+        ->get();
+
+        if($payments->isEmpty()) {
+
+            return redirect()->back()->with([
+                'flash_message' => 'Unable to proceed with your enrollment. Payment not found for your previous enrolled courses',
+                'flash_type' => 'danger',
+            ]);
+        }
+
+         
+        $courseIds = $applicationService->getCourseIds($student);
+
+        $paymentSchedules = $applicationService->getPaymentSchedule($courseIds);
+
+        list($amountDue, $continent) = $applicationService->getScheduleAmount($paymentSchedules);
+
+
+        $paid = $payments->sum('amount');
+
+        $balance = $amountDue - $paid;
+
+        if((int) $balance !==  0) {
+
+            return redirect()->back()->with([
+                'flash_message' => 'Unable to proceed with your enrollment. Outstanding payment exists for the courses you are currently enrolled in',
+                'flash_type' => 'danger',
+            ]);
+        }
+
+
+        try {
+
+            DB::beginTransaction();
+
+             if(is_array($request->course_id)) {
+
+                $student->courses()->attach($request->course_id);
+
+             } else {
+
+                $student->courses()->attach([$request->course_id]);
+
+
+             }
+
+             // $student = Student::with('courses')->find($std->id);
+
+             $courses = $student->courses;
+
+             $courseNames = $courses->pluck('name')->toArray();
+             
+            // $student = $applicationService->getStudent($std->id);
+        
+            try {
+  
+               // Mail::to($student->email)->send(new ApplicationNotification(firstname: $student->firstname, lastname: $student->lastname, email: $student->email,  courses:$student->courses,  id: $student->id, )); 
+
+
+
+            } catch(Exception $err) {
+                DB::rollBack();
+                $emailException = $err->getMessage();
+
+                Log::error($emailException);
+
+                return redirect()->back()->with([
+                    'flash_message' => 'critical error occurred  while processing email notification, try again later! or contact  support team',
+                    'flash_type' => 'danger'
+    
+                ]);
+            }
+           
+            DB::commit();
+
+            return redirect()->route('application.message', ['student' => $student->id]);
+    
+
+        } catch(Exception $err) {
+
+            DB::rollBack();
+            
+            Log::error($err->getMessage());
+
+            return redirect()->back()->with([
+
+                'flash_message' => 'Something went wrong while proccessing your registration. Please try again later  or contact support team',
+                'flash_type' => 'danger'
+
+            ]);
+
+        }
+
+
+    }
+
     /**
      * Remove the specified resource from storage.
      */
@@ -549,4 +671,6 @@ class StudentController extends Controller
          }
     }
 
+
+    
 }

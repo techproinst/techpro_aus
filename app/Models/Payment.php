@@ -61,9 +61,9 @@ class Payment extends Model
     }
 
     
-    public function paymentSchedule() {
+    public function paymentSchedules() {
 
-        return $this->belongsTo(PaymentSchedule::class, 'schedule_id', 'id');
+        return $this->belongsToMany(PaymentSchedule::class, 'payment_payment_schedule',   'payment_id', 'payment_schedule_id');
     }
     
 

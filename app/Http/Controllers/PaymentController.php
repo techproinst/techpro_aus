@@ -20,20 +20,50 @@ class PaymentController extends Controller
     /**
      * Display a listing of the resource.
      */
+    /*
     public function index(Student $student, ApplicationService $applicationService)
     {
       //  dd($student);
 
         try {
 
-            $paymentSchedule = $applicationService->getPaymentSchedule($student->course_id);
+           // $std = $applicationService->getStudent($student->id);
 
-            list($amountDue, $continent) = $applicationService->getScheduleAmount($paymentSchedule->amount);
+            // Get all courses the student has registered for
+            $courseIds = $applicationService->getCourseIds($student);
 
-          //  dd($continent);
+            // Fetch all payments with related paymentSchedules for the student
+                $payments = Payment::with('paymentSchedules')
+                ->where('student_id', $student->id)
+                ->get();
+
+           // Sum all paid amounts
+            $totalPaid = $payments->sum('amount');
+
+            // Get the last `amount_due` value
+            $lastAmountDue = $payments->last()?->amount_due ?? 0; // Use null-safe operator
+
+            // Extract unique course IDs from paymentSchedules
+            $paidCourses = $payments->pluck('paymentSchedules.*.course_id')
+                                    ->flatten()
+                                    ->unique()
+                                    ->toArray();
+
+                                
+            // Remove already paid courses from course list
+            $newCourseIds = array_diff($courseIds, $paidCourses);
+
+          //  dd($lastAmountDue);
+
+            // Get only the payment schedules for unpaid courses
+            $paymentSchedules = $applicationService->getPaymentSchedule($newCourseIds);
+             
+             // Calculate the amount due for only the new courses
+            list($amountDue, $continent) = $applicationService->getScheduleAmount($paymentSchedules);
+
+          
 
             return view('payments.view',compact('student', 'amountDue', 'continent'));
-
 
 
         }catch(Exception $err) {
@@ -42,7 +72,7 @@ class PaymentController extends Controller
             Log::error($err->getMessage());
 
             return redirect()->back()->with([
-                'flash_message' => $err->getMessage(),
+                'flash_message' => 'We could not determine  the payment amount for your location.Please contact support',
                 'flash_type' => 'danger'
 
             ]);
@@ -57,13 +87,76 @@ class PaymentController extends Controller
 
 
     }
+     */
+    public function index(Student $student, ApplicationService $applicationService)
+    {
+             try {
+            // Get all courses the student has registered for
+            $courseIds = $applicationService->getCourseIds($student);
+
+            // Fetch all payments with related paymentSchedules for the student
+            $payments = Payment::with('paymentSchedules')
+                ->where('student_id', $student->id)
+                ->get();
+
+            // Handle new students with no payments
+            if ($payments->isEmpty()) {
+                $totalPaid = 0;
+                $lastAmountDue = 0;
+                $paidCourses = [];
+            } else {
+                // Sum all paid amounts
+                $totalPaid = $payments->sum('amount');
+
+                // Get the last `amount_due` value
+                $lastAmountDue = $payments->last()?->amount_due ?? 0;
+
+                // Extract unique course IDs from paymentSchedules
+                $paidCourses = $payments->pluck('paymentSchedules.*.course_id')
+                                        ->flatten()
+                                        ->unique()
+                                        ->toArray();
+            }
+
+          
+          
+
+            // Remove already paid courses from course list
+            $newCourseIds = array_diff($courseIds, $paidCourses);
+
+            // Get only the payment schedules for unpaid courses
+            $paymentSchedules = $applicationService->getPaymentSchedule($newCourseIds);
+
+            // If no new courses to pay for, set amount due to 0
+            if (empty($newCourseIds)) {
+                $amountDue = 0;
+                $continent = null;
+            } else {
+                // Calculate the amount due for only the new courses
+                list($amountDue, $continent) = $applicationService->getScheduleAmount($paymentSchedules);
+            }
+
+            return view('payments.view', compact('student', 'amountDue', 'continent'));
+
+            } catch (Exception $err) {
+                Log::error($err->getMessage());
+
+                return redirect()->back()->with([
+                    'flash_message' => 'We could not determine the payment amount for your location. Please contact support.',
+                    'flash_type' => 'danger'
+                ]);
+            }
+    }
+
 
     
     public function showPaymentUpload(Student $student, ApplicationService $applicationService,)
     {
         try {
-              
 
+
+            $student = $applicationService->getStudent($student->id);
+            
             $continent = $applicationService->getLocation();
                                                         
             return view('payments.upload',compact('student', 'continent'));
@@ -74,7 +167,7 @@ class PaymentController extends Controller
             Log::error($err->getMessage());
 
             return redirect()->back()->with([
-                'flash_message' => $err->getMessage(),
+                'flash_message' => 'Something went wrong while processing your payments. Kindly contact supports.',
                 'flash_type' => 'danger'
 
             ]);
@@ -91,117 +184,119 @@ class PaymentController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request, ApplicationService  $applicationService)
+    
+
+     public function showNewCourse(Student $student, ApplicationService $applicationService)
+     {
+            // Get all courses the student has registered for
+            $courseIds = $applicationService->getCourseIds($student);
+
+            // Get all courses the student has already completed payment for
+            $paidCourses = Payment::with('paymentSchedules')
+                ->where('student_id', $student->id)
+                ->where('amount', '>=', DB::raw('amount_due'))
+                ->get()
+                ->pluck('paymentSchedules.*.course_id')
+                ->flatten()
+                ->unique()
+                ->toArray();
+
+            // Remove already paid courses from course list
+            $newCourseIds = array_diff($courseIds, $paidCourses);
+
+            // Get only the payment schedules for unpaid courses
+            $paymentSchedules = $applicationService->getPaymentSchedule($newCourseIds);
+
+            // Calculate the amount due for only the new courses
+            list($amountDue, $continent) = $applicationService->getScheduleAmount($paymentSchedules);
+
+            $std =  $student;
+
+
+            return view('payments.view', compact('std','amountDue', 'continent'));
+     }
+
+
+
+    public function store(Request $request, ApplicationService $applicationService)
     {
-
         $validated = $request->validate([
-            'student_id' => ['required','exists:students,id'],
+            'student_id' => ['required', 'exists:students,id'],
             'payment_receipt' => 'required|mimes:jpg,jpeg,png,gif,pdf|max:1024',
-
         ]);
 
-        
-        try { 
-
+        try {
             DB::beginTransaction();
-
 
             $student = $applicationService->getStudent($request->student_id);
 
-            $paymentSchedule = $applicationService->getPaymentSchedule($student->course_id);
+            // Get all courses the student has registered for
+            $courseIds = $applicationService->getCourseIds($student);
 
-            list($amountDue, $continent) = $applicationService->getScheduleAmount($paymentSchedule->amount);
+            // Get all courses the student has already completed payment for
+            $paidCourses = Payment::with('paymentSchedules')
+                ->where('student_id', $request->student_id)
+                ->where('is_completed', 1)
+                ->get()
+                ->pluck('paymentSchedules.*.course_id')
+                ->flatten()
+                ->unique()
+                ->toArray();
+
+            // Remove already paid courses from course list
+            $newCourseIds = array_diff($courseIds, $paidCourses);
+
+
+            // Get only the payment schedules for unpaid courses
+            $paymentSchedules = $applicationService->getPaymentSchedule($newCourseIds);
+
+            // Calculate the amount due for only the new courses
+            list($amountDue, $continent) = $applicationService->getScheduleAmount($paymentSchedules);
 
             $existingPayment = Payment::where('student_id', $request->student_id)->first();
 
-        
-            $validated['student_id'] = $request->student_id; 
+            $validated['student_id'] = $request->student_id;
             $validated['amount_due'] = $amountDue;
             $validated['transaction_reference'] = Payment::trxRef();
             $validated['invoice'] = $existingPayment ? $existingPayment->invoice : Payment::inv();
-            $validated['purpose'] = $paymentSchedule->purpose;
-            $validated['description'] = $paymentSchedule->description;
-            $validated['schedule_id'] = $paymentSchedule->id;
+            $validated['purpose'] = $paymentSchedules->first()->purpose;
             $validated['currency'] = $continent === 'Other' ? 'usd' : 'naira';
 
-        
+            if ($request->hasFile('payment_receipt')) {
+                $receipt = $request->file('payment_receipt');
+                $rad = mt_rand(1000, 9999);
+                $receiptName = md5($receipt->getClientOriginalName()) . $rad . '.' . $receipt->getClientOriginalExtension();
+                $receipt->move(public_path('upload/'), $receiptName);
+                $validated['payment_receipt'] = $receiptName;
+            }
 
-                if($request->hasFile('payment_receipt')) {
-
-                    $receipt = $request->File('payment_receipt');
-                    $rad =  mt_rand(1000, 9999);
-            
-                    $receiptName =  md5($receipt->getClientOriginalName()) . $rad . '.' . $receipt->getClientOriginalExtension();
-            
-            
-                    $receipt->move(public_path('upload/'), $receiptName);
-                    $upload =  $receiptName;
-            
-                    if ($upload) {
-    
-                        $validated['payment_receipt'] = $upload;
-                    
-                    }
-                }
-
-
-
-                Payment::create($validated);
+            $payment = Payment::create($validated);
+            $payment->paymentSchedules()->attach($paymentSchedules->pluck('id')->toArray());
 
             try {
-
                 $admin = User::first();
-    
-                $adminEmail = $admin->email;
-                $adminName = $admin->name;
-          
-            
-              Mail::to($adminEmail)->send(new AdminNotification ($adminName));
-
-
-            }catch(Exception $err) {
-
+                Mail::to($admin->email)->send(new AdminNotification($admin->name));
+            } catch (Exception $err) {
                 DB::rollBack();
-
-                $emailException = $err->getMessage();
-
-                Log::error($emailException);
-
+                Log::error($err->getMessage());
                 return redirect()->back()->with([
-                    'flash_message' => 'critical error occurred  while processing email notification, try again later! or contact  support team',
-                    'flash_type' => 'danger'
-    
+                    'flash_message' => 'Critical error occurred while sending email notification.',
+                    'flash_type' => 'danger',
                 ]);
-
             }
 
             DB::commit();
-
             return view('payments.success');
 
+        } catch (Exception $err) {
+            DB::rollBack();
+            Log::error("Error processing payment for student ID {$request->student_id}: " . $err->getMessage());
 
-        } catch(Exception $err) {
-
-            Log::error("Error processing payment for student ID {$request->id}: " . $err->getMessage());
-            
             return redirect()->back()->with([
-
-                'flash_message' => 'Critical error occured while processing payment upload, kindly try again later or contact our support team',
-                'flash_type' => 'danger'
-
+                'flash_message' => 'Critical error occurred while processing payment upload. Try again later.',
+                'flash_type' => 'danger',
             ]);
-
-
         }
-
-
-       
-      
-
-
     }
 
 
@@ -215,98 +310,103 @@ class PaymentController extends Controller
 
     public function approve(Request $request, $id, ApplicationService $applicationService) 
     {
-              $request->validate([
-               'amount' => ['required', 'numeric'],
-               'payment_reference' => ['required', 'string',],
-
-              ]);
-  
-         try {   
-            
-                  DB::beginTransaction();
-
-                $payment = Payment::with('student.course')->find($id);
-
-                if(!$payment || !$payment->student) {
-
-                    return redirect()->back()->with([ 
-                        'flash_message' => 'Student or payment record not found',
-                        'flash_type' => 'danger'
-                    ]);
-        
-                }
-
-                $student = $payment->student;
-                $course = $student->course;
-
-                if(!$student->app_no) {
-
-                    $year = date('Y');
-                    $student->app_no =  Student::genAppNo($year);
-   
-                    $student->save();
-
-                }
-
-            
-                 $payment->update([
-                    'amount' => $request->amount,
-                    'payment_reference' => $request->payment_reference,
-                    'status' => Payment::Active,
-                 ]);
-
-               
-               try {
-
-              Mail::to($student->email)->send(new PaymentApprovalMail(
+        $request->validate([
+            'amount' => ['required', 'numeric'],
+            'payment_reference' => ['required', 'string'],
+        ]);
+    
+        try {   
+            DB::beginTransaction();
+    
+            $payment = Payment::with('student')->find($id);
+    
+            if (!$payment || !$payment->student) {
+                return redirect()->back()->with([ 
+                    'flash_message' => 'Student or payment record not found',
+                    'flash_type' => 'danger'
+                ]);
+            }
+    
+            $student = $payment->student;
+            $courses = $student->courses;
+    
+            // Assign an application number if not set
+            if (!$student->app_no) {
+                $year = date('Y');
+                $student->app_no = Student::genAppNo($year);
+                $student->save();
+            }
+    
+            // Fetch all payments for this student
+            $payments = Payment::with('paymentSchedules')
+                                ->where('student_id', $student->id)
+                                ->get();
+    
+            // Get registered courses and payment schedules
+            $courseIds = $courses->pluck('id')->toArray();
+            $paymentSchedules = $applicationService->getPaymentSchedule($courseIds);
+    
+            // Get total amount due across all courses
+            list($amountDue, $continent) = $applicationService->getScheduleAmount($paymentSchedules);
+    
+            // Get total amount the student has paid so far
+            $totalPaid = $payments->sum('amount') + $request->amount; // ✅ Include new payment
+    
+            // ✅ Check if payment is completed
+            $isCompleted = $totalPaid >= $amountDue;
+    
+            if ($isCompleted) {
+                Payment::where('student_id', $student->id)->update(['is_completed' => 1]); // ✅ Updates all records
+            }
+    
+            // Update payment record
+            $payment->update([
+                'amount' => $request->amount,
+                'payment_reference' => $request->payment_reference,
+                'status' => Payment::Active,
+            ]);
+    
+            // ✅ Send email notification only after successful update
+            try {
+                Mail::to($student->email)->send(new PaymentApprovalMail(
                     $student->firstname,
                     $student->lastname,
                     $student->email,
-                    $course->name,
+                    $courses,
                     $student->app_no,
                     $payment->payment_reference,
                     $payment->amount,
-                    $payment->currency));
-
-               } catch(Exception $emailException) {
-
+                    $payment->currency
+                ));
+            } catch (Exception $emailException) {
                 DB::rollBack();
-
                 Log::error($emailException->getMessage());
-
+    
                 return redirect()->back()->with([
-                    'flash_message' => 'Critical error occured while processing email notification, kindly try again later or contact our support team',
+                    'flash_message' => 'Error occurred while sending email notification, please try again later or contact support.',
                     'flash_type' => 'danger'
-
-                 ]);
-
-
-               }
-                 
-                 DB::commit();
-
-                 return redirect()->back()->with([
-                    'flash_message' => 'Payment record updated successfully',
-                    'flash_type' => 'success'
-
-                 ]);
-
-         }catch(Exception $err) {
-
+                ]);
+            }
+    
+            DB::commit();
+    
+            return redirect()->back()->with([
+                'flash_message' => 'Payment record updated successfully',
+                'flash_type' => 'success'
+            ]);
+    
+        } catch (Exception $err) {
             DB::rollBack();
-
             Log::error($err->getMessage());
-
+    
             return redirect()->back()->with([ 
-                'flash_message' => 'An error occured while updating payment record',
+                'flash_message' => 'An error occurred while updating payment record.',
                 'flash_type' => 'danger'
             ]);
-
-
-
-         }
-
+        }
     }
+    
+    
 
 
     

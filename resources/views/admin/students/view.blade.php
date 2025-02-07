@@ -49,7 +49,7 @@
               <th>Firstname</th>
               <th>Lastname</th>
               <th>Email</th>
-              <th>Course</th>
+              <th>Course(s)</th>
               <th>App No</th>
               <th>Status</th>
             </tr>
@@ -61,7 +61,13 @@
               <td>{{ Str::ucfirst(strtolower($student->firstname))}}</td>
               <td>{{ Str::ucfirst(strtolower($student->lastname))}}</td>
               <td>{{ $student->email }}</td>
-              <td>{{ $student->course->name }}</td>
+              @php
+                $courses = $student->courses;
+              @endphp
+              <td>@foreach ($courses as $course )
+                {{ $course->name }} <br>
+                
+              @endforeach</td>
               <td>{{ $student->app_no }}</td>
               <td>
                 @include('admin.students.edit_form')

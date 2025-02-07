@@ -16,14 +16,17 @@
             Application :: Details
         </div>
         <div class="card-body">
-            
+                <p>Dear  {{ ucfirst(strtolower($firstname)) }} {{ ucfirst(strtolower($lastname)) }}</p>
                 <p>Your application to TechPro Institute has been successfully completed</p>
                 <p>The following are your application details:</p>
-                <h6>Name: {{ ucfirst(strtolower($firstname)) }} {{ ucfirst(strtolower($lastname)) }}</h6>
                 <h6>Email Address: {{ $email }}</h6>
-                <h6>Course applied: {{Str::upper($course)}}</h6>
-                
-    
+                <h6>Courses:</h6>
+                <ul>
+                  @foreach ($courses as $course )
+                   <li>{{ Str::upper($course->name) }}</li>
+                  @endforeach
+
+                </ul>
             <a href="{{ route('payment', ['student' => $id]) }}">
               <button style="background-color:  #fc3468; color:white" type="button" class="btn">Proceed to make payments</button>
             </a>

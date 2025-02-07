@@ -52,21 +52,28 @@
     <div class="row mt-3">
       <div class="col">
         <label for="firstname">Firstname</label>
-        <input value="{{ $student->firstname }}" class="form-control mt-2"   readonly />
+        <input value="{{  $student->firstname }}" class="form-control mt-2"   readonly />
       </div>
       <div class="col">
         <label for="firstname">Lastname</label>
-        <input  value="{{ $student->lastname }}" type="text" class="form-control mt-2" placeholder="Last name" aria-label="Last name" readonly />
+        <input  value="{{  $student->lastname }}" type="text" class="form-control mt-2" placeholder="Last name" aria-label="Last name" readonly />
       </div>
     </div>
     <div class="row  mt-4 mb-4 mb-lg-5 mb-md-4 ">
       <div class="col">
-        <label for="firstname">Course</label>
-        <input value="{{ $student->course->name }}" type="text" class="form-control mt-2" placeholder="Phone Number" aria-label="First name" readonly />
+        <label for="firstname">Course:</label>
+        @php
+          $courses =  $student->courses;
+        
+        @endphp
+        @foreach ($courses as $course )
+           <span>{{ $course->name }}</span><br>           
+        @endforeach
+       
       </div>
       <div class="col">
         <label for="firstname">Email</label>
-        <input  value="{{ $student->email }}" type="text" class="form-control mt-2" placeholder="Email" aria-label="Last name" readonly />
+        <input  value="{{  $student->email }}" type="text" class="form-control mt-2" placeholder="Email" aria-label="Last name" readonly />
       </div>
     </div>
 
@@ -80,6 +87,7 @@
           </div>
           <div>
             @php
+             
             $gst = $amountDue * 0.1; // GST is 10% of the amount due
             $total = $amountDue + $gst;  
             $currencySymbol =  $continent === 'Africa' ? '&#8358;' : '$';       
@@ -125,7 +133,7 @@
     </div>
     <div class="row">
       <div class="col text-center btn-wrapper">
-        <a href="{{ route('payment.show', ['student' => $student->id]) }}"><button type="submit" class="Proceed-btn">Proceed to Payment </button></a>
+        <a href="{{ route('payment.show', ['student' =>  $student->id]) }}"><button type="submit" class="Proceed-btn">Proceed to Payment </button></a>
       </div>
     </div>
   </div>

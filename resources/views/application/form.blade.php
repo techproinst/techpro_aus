@@ -120,11 +120,14 @@
                 
               @enderror
             </div>
-
+             
             <button type="submit" class="btn btn-sm register-btn mt-3 float-end"> Register </button>
 
        </form>
+         <p class="pt-2">Already a Registered student. <a href="{{ route('application.newCourse', ['course' => $course->id]) }}">click here</a>
+          to apply for new course</p>
           </div>
+         
         </div>
 
       </div>

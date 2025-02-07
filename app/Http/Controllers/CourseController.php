@@ -51,6 +51,12 @@ class CourseController extends Controller
           return view('application.form', compact('course'));
     }
 
+    public function loadNewCourse(Course  $course)
+    {
+        return view('application.new_course', compact('course'));
+    }
+
+
     /**
      * Show the form for creating a new resource.
      */

@@ -22,18 +22,18 @@ class PaymentApprovalMail extends Mailable
      public $firstname;
      public $lastname;
      public $email;
-     public $course;
+     public $courses;
      public $app_no;
      public $payment_reference;
      public $amount;
      public $currency;
 
-    public function __construct($firstname, $lastname, $email, $course, $app_no, $payment_reference, $amount, $currency)
+    public function __construct($firstname, $lastname, $email, $courses, $app_no, $payment_reference, $amount, $currency)
     {
         $this->firstname = $firstname;
         $this->lastname = $lastname;
         $this->email = $email;
-        $this->course = $course;
+        $this->courses = $courses;
         $this->app_no = $app_no;
         $this->payment_reference = $payment_reference;
         $this->amount = $amount;
@@ -62,7 +62,7 @@ class PaymentApprovalMail extends Mailable
                 'firstname' => $this->firstname,
                 'lastname' => $this->lastname,
                 'email' => $this->email,
-                'course' => $this->course,
+                'courses' => $this->courses,
                 'app_no' => $this->app_no,
                 'payment_reference' => $this->payment_reference,
                 'amount' => $this->amount,

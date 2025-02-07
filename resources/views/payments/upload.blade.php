@@ -62,7 +62,10 @@
             <p><strong>Bank Name:</strong> Comm Bank</p>
             <h6 class=""><strong>Full Name:</strong> {{Str::ucfirst(Str::lower($student->firstname) )}} {{Str::upper(Str::lower( $student->lastname) ) }}</h6>
             <h6 class=""><strong>Email:</strong> {{Str::ucfirst(Str::lower( $student->email) ) }}</h6>
-            <h6 class=""><strong>Course:</strong> {{Str::ucfirst(Str::lower( $student->course->name) ) }}</h6>
+            @php
+              $course = $student->courses->first();
+            @endphp
+            <h6 class=""><strong>Course:</strong> {{Str::ucfirst(Str::lower( $course->name) ) }}</h6>
             <form action="{{ route('payment.store')}}" method="POST" enctype="multipart/form-data">
               @csrf
               <div class="mb-3">
@@ -87,7 +90,7 @@
                 @enderror
               </div>
 
-              <button type="submit" class="upload-btn float-end">Upload</button>
+              <button type="submit" class="upload-btn float-end">Proceed</button>
 
             </form>
            

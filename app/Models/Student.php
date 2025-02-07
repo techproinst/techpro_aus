@@ -30,11 +30,19 @@ class Student extends Model
 
   }
 
-
+/*
     public function course()
     {
       return $this->belongsTo(Course::class, 'course_id', 'id');
 
+    }
+
+    */
+
+
+    public function  courses() 
+    {
+      return $this->belongsToMany(Course::class,  'students_courses', 'students_id', 'courses_id');
     }
 
 }

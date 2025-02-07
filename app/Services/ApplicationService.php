@@ -122,11 +122,10 @@ class ApplicationService
    
      }
 
-
-     public function getStudent($id) 
+      public function getStudent($id) 
      {
        
-        $student = Student::with('course')->where('id', $id)->first();
+        $student = Student::with('courses')->where('id', $id)->first();
          
         if(!$student) {
    
@@ -138,24 +137,39 @@ class ApplicationService
      }
 
 
+
+  
+
+
+    public function getCourseIds($student)
+    {
+   
+   
+       return $student->courses->pluck('id')->toArray();
+
+    }
+
+
+
+
      
-    public function getPaymentSchedule($course_id) 
+    public function getPaymentSchedule($courseIds) 
     {  
-        $schedule = PaymentSchedule::where('course_id', $course_id)->first();
+        $schedules = PaymentSchedule::whereIn('course_id', (array) $courseIds)->get();
 
-        if(!$schedule) {
+        if($schedules->isEmpty()) {
 
-        throw new Exception("Payment schedule for course ID {$course_id} not found");
+        throw new Exception("Payment schedule for course(s) not found");
 
         }
 
 
-        return $schedule;
+        return $schedules;
 
     }
 
-    public function getScheduleAmount($amount) 
-    {
+        public function getScheduleAmount($paymentSchedule) 
+    {   
         
         $continent = $this->getLocation() ?? 'Other';
 
@@ -164,15 +178,40 @@ class ApplicationService
             $continent = 'Other';
          }
 
-        $scheduleAmount = json_decode($amount, true);
+         $paymentScheduleAmounts = $paymentSchedule->pluck('amount');
 
-        $amountDue = $scheduleAmount[$continent] ?? $scheduleAmount['Other'] ?? null;
+         $amountDue = 0;
 
-        if($amountDue === null) {
-            Log::error('Amount due not found for  for continent' . $continent);
 
-            abort(404);
-        }
+         foreach($paymentScheduleAmounts as $value) {
+
+            $amounts = json_decode($value, true);
+
+            //dd($amounts);
+
+            Log::info('Available amounts: '. json_encode($amounts));
+
+            $amountDue += $amounts[$continent] ?? $amounts['Other'] ?? 0;
+
+            
+        
+
+         }
+
+
+         if($amountDue === 0) {
+
+            Log::error('No valid amount found for continent ' . $continent . 'Availalble options: '.json_encode($paymentScheduleAmounts));
+
+             throw new Exception('Payment amount for your region' . ($continent). 'not available');
+
+
+         }
+
+      
+      
+
+        
 
         return [$amountDue, $continent];
 

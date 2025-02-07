@@ -20,19 +20,19 @@ class ApplicationNotification extends Mailable
      public $firstname;
      public $lastname;
      public $email;
-     public $course;
-     public $id;
-     public $courseId;
+     public $courses;
+     public $Sid;
+
      
 
-    public function __construct($firstname, $lastname, $email, $course,  $id, $courseId)
+    public function __construct($firstname, $lastname, $email, $courses,  $id,)
     {
        $this->firstname = $firstname;
        $this->lastname = $lastname;
        $this->email = $email;
-       $this->course = $course;
+       $this->courses = $courses;
        $this->id = $id;
-       $this->courseId = $courseId;
+       
     
           
     }
@@ -59,9 +59,9 @@ class ApplicationNotification extends Mailable
                 'firstname' => $this->firstname,
                 'lastname' => $this->lastname,
                 'email' => $this->email,
-                'course' => $this->course,
+                'courses' => $this->courses,
                 'id' => $this->id,
-                'courseId' => $this->courseId,
+                
             ]
         );
     }

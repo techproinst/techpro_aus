@@ -15,4 +15,9 @@ class Course extends Model
     {
         return $this->hasOne(PaymentSchedule::class, 'course_id', 'id');
     }
+
+    public function student()
+    {
+        return $this->belongsToMany(Student::class, 'students_courses', 'courses_id', 'students_id');
+    }
 }

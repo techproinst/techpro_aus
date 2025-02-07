@@ -18,7 +18,13 @@
         <p>The following are your application and payment details:</p>
         <h6>Name: {{ucfirst(strtolower($firstname))}}  {{ ucfirst(strtolower($lastname))}}</h6>
         <h6>Email Address: {{ $email }}</h6>
-        <h6>Course applied:  {{$course}} </h6>
+        <h6>Course applied: </h6>
+        <ul>
+          @foreach ($courses as $course )
+          <li>{{ $course->name }}</li>
+            
+          @endforeach
+        </ul>
         <h6>Application Number: {{ $app_no }}</h6>
         <h6>Payment Reference: {{ $payment_reference }}</h6>
         @php

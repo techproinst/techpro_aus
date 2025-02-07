@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('currency')->nullable();
             $table->integer('status')->default(0);
             $table->string('purpose')->nullable();
-            $table->string('description')->nullable();
-            $table->unsignedBigInteger('schedule_id')->nullable();
+          //  $table->json('description')->nullable();
+           // $table->unsignedBigInteger('schedule_id')->nullable();
             $table->string('payment_receipt');
             $table->timestamps();
         });
