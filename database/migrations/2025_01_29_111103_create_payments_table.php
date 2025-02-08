@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('student_id')->constrained();
             $table->decimal('amount', 10,2)->nullable();
             $table->decimal('amount_due',10,2)->nullable();
+            $table->boolean('is_completed')->default(false);
+            $table->string('promo_code')->nullable();
             $table->string('payment_reference')->nullable();
             $table->string('invoice')->nullable();
             $table->string('transaction_reference')->nullable();
@@ -24,7 +26,7 @@ return new class extends Migration
             $table->string('purpose')->nullable();
           //  $table->json('description')->nullable();
            // $table->unsignedBigInteger('schedule_id')->nullable();
-            $table->string('payment_receipt');
+            $table->string('payment_receipt')->nullable();
             $table->timestamps();
         });
     }

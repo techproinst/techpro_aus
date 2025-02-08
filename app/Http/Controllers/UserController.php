@@ -6,6 +6,7 @@ use App\Mail\ConsultancyNotification;
 use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Payment;
+use App\Models\PromoCode;
 use App\Models\Student;
 use App\Models\StudentReview;
 use App\Models\User;
@@ -96,6 +97,62 @@ class UserController extends Controller
         $users = User::all();
 
         return view('admin.users.view', compact('users', 'roles'));
+    }
+
+
+    public function loadPromo()
+    {     
+        $promoCodes = PromoCode::orderBy('status', 'asc')->orderByDesc('created_at')->get();
+
+        return view('admin.students.promo', compact('promoCodes'));
+    }
+
+    public function genPromoCode()
+    {
+        $chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $res = "";
+       
+
+        do{
+            $res = "";
+       
+            for ($i = 0; $i < 10; $i++) {
+                $res .= $chars[mt_rand(0, strlen($chars)-1)];
+            }
+            
+
+        }while(PromoCode::where('promo_code', $res)->exists());
+
+
+    
+        try{
+
+            PromoCode::create(['promo_code' => $res]);
+
+            return redirect()->back()->with([
+                'flash_message' => 'Promo code generated successfully',
+                'flash_type' => 'success',
+    
+            ]);
+
+        }catch(Exception $err) {
+            Log::error('Promo code generation error'. $err->getMessage());
+
+            return redirect()->back()->with([
+                'flash_message' => 'Something went wrong while generating promo code. Try again later',
+                'flash_type' => 'danger',
+    
+            ]);
+
+
+
+        }
+        
+       
+
+
+
+
     }
 
 

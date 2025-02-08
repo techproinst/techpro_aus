@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('payments', function (Blueprint $table) {
-
-            $table->boolean('is_completed')->default(false)->after('amount_due');
+        Schema::create('promo_codes', function (Blueprint $table) {
+            $table->id();
+            $table->string('promo_code');
+            $table->integer('status')->default(0);
+            $table->timestamps();
         });
     }
 
@@ -22,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('payments', function (Blueprint $table) {
-            $table->dropColumn('is_completed');
-        });
+        Schema::dropIfExists('promo_codes');
     }
 };

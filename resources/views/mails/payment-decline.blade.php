@@ -14,12 +14,12 @@
     <div class="card mt-2">
         <div class="card-header bg-danger text-white">Payment :: Declined </div>
         <div class="card-body">
-        <p> We regret to inform you that your payment could not be approved due to  {{ $comments }} </p>
+        <p> We regret to inform you that your payment could not be approved due to  <span class="fw-bold text-danger"> {{ $comments }}</span>  </p>
         <p>The following are your application details:</p>
         <h6>Name: {{ucfirst(strtolower($firstName))}}  {{ ucfirst(strtolower($lastName))}}</h6>
         <h6>Email Address: {{ $email }}</h6>
-        <h6>Course applied:  {{$course}} </h6> 
-        <p>Kindly contact the admin for more information</p>
+        {{-- <h6>Course applied:  {{$course}} </h6>  --}}
+        <p>Kindly contact  support for more information</p>
         <p>Thanks</p>       
         </div>
     </div>

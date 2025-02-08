@@ -6,6 +6,7 @@ use App\Mail\AdminNotification;
 use App\Mail\PaymentApprovalMail;
 use App\Mail\PaymentDeclinedMail;
 use App\Models\Payment;
+use App\Models\PromoCode;
 use App\Models\Student;
 use App\Models\User;
 use App\Services\ApplicationService;
@@ -20,74 +21,7 @@ class PaymentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    /*
-    public function index(Student $student, ApplicationService $applicationService)
-    {
-      //  dd($student);
-
-        try {
-
-           // $std = $applicationService->getStudent($student->id);
-
-            // Get all courses the student has registered for
-            $courseIds = $applicationService->getCourseIds($student);
-
-            // Fetch all payments with related paymentSchedules for the student
-                $payments = Payment::with('paymentSchedules')
-                ->where('student_id', $student->id)
-                ->get();
-
-           // Sum all paid amounts
-            $totalPaid = $payments->sum('amount');
-
-            // Get the last `amount_due` value
-            $lastAmountDue = $payments->last()?->amount_due ?? 0; // Use null-safe operator
-
-            // Extract unique course IDs from paymentSchedules
-            $paidCourses = $payments->pluck('paymentSchedules.*.course_id')
-                                    ->flatten()
-                                    ->unique()
-                                    ->toArray();
-
-                                
-            // Remove already paid courses from course list
-            $newCourseIds = array_diff($courseIds, $paidCourses);
-
-          //  dd($lastAmountDue);
-
-            // Get only the payment schedules for unpaid courses
-            $paymentSchedules = $applicationService->getPaymentSchedule($newCourseIds);
-             
-             // Calculate the amount due for only the new courses
-            list($amountDue, $continent) = $applicationService->getScheduleAmount($paymentSchedules);
-
-          
-
-            return view('payments.view',compact('student', 'amountDue', 'continent'));
-
-
-        }catch(Exception $err) {
-
-
-            Log::error($err->getMessage());
-
-            return redirect()->back()->with([
-                'flash_message' => 'We could not determine  the payment amount for your location.Please contact support',
-                'flash_type' => 'danger'
-
-            ]);
-
-
-
-        }
-
-
-
-
-
-
-    }
-     */
+    
     public function index(Student $student, ApplicationService $applicationService)
     {
              try {
@@ -216,14 +150,151 @@ class PaymentController extends Controller
             return view('payments.view', compact('std','amountDue', 'continent'));
      }
 
+     /*
+     public function store(Request $request, ApplicationService $applicationService)
+{
+    if ($request->promo_code) {
+        $promoCode = PromoCode::where('promo_code', $request->promo_code)
+                              ->where('status', 0)
+                              ->first();
 
+        if (!$promoCode) {
+            return redirect()->back()->withInput()->with([
+                'flash_message' => 'Invalid Promo Code!',
+                'flash_type' => 'danger'
+            ]);
+        }
+    }
 
-    public function store(Request $request, ApplicationService $applicationService)
-    {
-        $validated = $request->validate([
-            'student_id' => ['required', 'exists:students,id'],
+    $validated = $request->validate([
+        'student_id' => ['required', 'exists:students,id'],
+    ]);
+
+    if ($request->payment_receipt) {
+        $request->validate([
             'payment_receipt' => 'required|mimes:jpg,jpeg,png,gif,pdf|max:1024',
         ]);
+    }
+
+    try {
+        DB::beginTransaction();
+
+        $student = $applicationService->getStudent($request->student_id);
+        $courseIds = $applicationService->getCourseIds($student);
+
+        // Get courses already paid for
+        $paidCourses = Payment::with('paymentSchedules')
+            ->where('student_id', $request->student_id)
+            ->where('is_completed', 1)
+            ->get()
+            ->pluck('paymentSchedules.*.course_id')
+            ->flatten()
+            ->unique()
+            ->toArray();
+
+        // Filter out paid courses
+        $newCourseIds = array_diff($courseIds, $paidCourses);
+
+        if (empty($newCourseIds)) {
+            return redirect()->back()->with([
+                'flash_message' => 'You have already completed payments for all registered courses!',
+                'flash_type' => 'info'
+            ]);
+        }
+
+        $paymentSchedules = $applicationService->getPaymentSchedule($newCourseIds);
+        list($amountDue, $continent) = $applicationService->getScheduleAmount($paymentSchedules);
+
+        $existingPayment = Payment::where('student_id', $request->student_id)->first();
+
+        $validated['student_id'] = $request->student_id;
+        $validated['amount_due'] = $amountDue;
+        $validated['transaction_reference'] = Payment::trxRef();
+        $validated['invoice'] = $existingPayment ? $existingPayment->invoice : Payment::inv();
+        $validated['purpose'] = $paymentSchedules->first()->purpose;
+        $validated['currency'] = ($continent === 'Other') ? 'usd' : 'naira';
+        $validated['promo_code'] = $request->promo_code ?? null;
+
+        if ($request->hasFile('payment_receipt')) {
+            $receipt = $request->file('payment_receipt');
+            $rad = mt_rand(1000, 9999);
+            $receiptName = md5($receipt->getClientOriginalName()) . $rad . '.' . $receipt->getClientOriginalExtension();
+            $receipt->move(public_path('upload/'), $receiptName);
+            $validated['payment_receipt'] = $receiptName;
+        }
+
+        $payment = Payment::create($validated);
+        $payment->paymentSchedules()->attach($paymentSchedules->pluck('id')->toArray());
+
+        // ✅ Mark promo code as used
+        if (isset($promoCode)) {
+            $promoCode->update(['status' => 1]);
+        }
+
+        try {
+            $admin = User::first();
+            Mail::to($admin->email)->send(new AdminNotification($admin->name));
+        } catch (Exception $err) {
+            DB::rollBack();
+            Log::error($err->getMessage());
+
+            return redirect()->back()->with([
+                'flash_message' => 'Error sending email notification.',
+                'flash_type' => 'danger',
+            ]);
+        }
+
+        DB::commit();
+        return view('payments.success');
+
+    } catch (Exception $err) {
+        DB::rollBack();
+        Log::error("Error processing payment for student ID {$request->student_id}: " . $err->getMessage());
+
+        return redirect()->back()->with([
+            'flash_message' => 'An error occurred while processing payment upload.',
+            'flash_type' => 'danger',
+        ]);
+    }
+}
+
+
+     */
+
+
+  
+    public function store(Request $request, ApplicationService $applicationService)
+    {
+         if($request->promo_code) {
+
+           $promoCode  = PromoCode::where('promo_code', $request->promo_code)
+                         ->where('status', 0)
+                         ->first();
+
+            if(!$promoCode) {
+
+                return redirect()->back()->with([
+                    'flash_message' => 'Invalid Promo Code!!',
+                    'flash_type' => 'danger'
+    
+                ]);
+            }
+
+         }
+
+        $validated = $request->validate([
+            'student_id' => ['required', 'exists:students,id'],
+            //'payment_receipt' => 'required|mimes:jpg,jpeg,png,gif,pdf|max:1024',
+        ]);
+
+        if($request->payment_receipt) {
+            $request->validate([
+                'payment_receipt' => 'required|mimes:jpg,jpeg,png,gif,pdf|max:1024',
+
+            ]);
+        }
+
+
 
         try {
             DB::beginTransaction();
@@ -261,6 +332,7 @@ class PaymentController extends Controller
             $validated['invoice'] = $existingPayment ? $existingPayment->invoice : Payment::inv();
             $validated['purpose'] = $paymentSchedules->first()->purpose;
             $validated['currency'] = $continent === 'Other' ? 'usd' : 'naira';
+            $validated['promo_code'] = $request->promo_code ?? null;
 
             if ($request->hasFile('payment_receipt')) {
                 $receipt = $request->file('payment_receipt');
@@ -272,6 +344,12 @@ class PaymentController extends Controller
 
             $payment = Payment::create($validated);
             $payment->paymentSchedules()->attach($paymentSchedules->pluck('id')->toArray());
+
+              // ✅ Mark promo code as used
+                if (isset($promoCode)) {
+                    $promoCode->update(['status' => 1]);
+                }
+
 
             try {
                 $admin = User::first();
@@ -420,14 +498,14 @@ class PaymentController extends Controller
 
        try {
 
-        $payment =  Payment::with('student.course')->find($request->id);
+        $payment =  Payment::with('student')->find($request->id);
 
         DB::beginTransaction();
 
         $payment->update(['status' =>  Payment::Declined]);
 
         $student = $payment->student;
-        $course = $student->course;
+       // $course = $student->course;
 
                 try {
 
@@ -435,7 +513,7 @@ class PaymentController extends Controller
                         $student->firstname,
                         $student->lastname,
                         $student->email,
-                        $course->name,
+                      //  $course->name,
                         $request->comments,
                     ));  
 

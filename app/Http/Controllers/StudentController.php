@@ -600,7 +600,7 @@ class StudentController extends Controller
         
             try {
   
-               // Mail::to($student->email)->send(new ApplicationNotification(firstname: $student->firstname, lastname: $student->lastname, email: $student->email,  courses:$student->courses,  id: $student->id, )); 
+              Mail::to($student->email)->send(new ApplicationNotification(firstname: $student->firstname, lastname: $student->lastname, email: $student->email,  courses:$student->courses,  id: $student->id, )); 
 
 
 

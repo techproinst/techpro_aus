@@ -21,15 +21,15 @@ class PaymentDeclinedMail extends Mailable
      public $firstname;
      public $lastname;
      public $email;
-     public $course;
+   //  public $course;
      public $comments;
 
-    public function __construct($firstname, $lastname,$email, $course, $comments)
+    public function __construct($firstname, $lastname,$email,  $comments)
     {
         $this->firstname = $firstname;
         $this->lastname = $lastname;
         $this->email = $email;
-        $this->course = $course;
+       // $this->course = $course;
         $this->comments = $comments;
     }
 
@@ -55,7 +55,7 @@ class PaymentDeclinedMail extends Mailable
                 'firstName' => $this->firstname,
                 'lastName' => $this->lastname,
                 'email' => $this->email,
-                'course' => $this->course,
+             //   'course' => $this->course,
                 'comments' => $this->comments,
                 
                 

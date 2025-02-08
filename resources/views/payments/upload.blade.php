@@ -28,7 +28,7 @@
       box-shadow: none;
 
     }
- 
+   
   </style>
 
 
@@ -69,8 +69,15 @@
             <form action="{{ route('payment.store')}}" method="POST" enctype="multipart/form-data">
               @csrf
               <div class="mb-3">
-                <label for="formFile" class="form-label">Upload Evidence of Payment</label>
-                <input class="form-control" type="file" name="payment_receipt">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="promocheck">
+                  <label class="form-check-label text-danger" for="flexCheckDefault">
+                    Do you have a promocode?
+                  </label>
+                </div>
+                <input  name="promo_code" type="text" class="form-control promo-input" id="exampleFormControlInput1" placeholder="Enter your promo code">
+                <label for="formFile" class="form-label upload-label">Upload Evidence of Payment</label>
+                <input class="form-control upload-input" type="file" name="payment_receipt">
                 <input value="{{$student->id }}" type="text" name="student_id" hidden>
                 <input value="{{ $continent }}" name="continent" type="text" hidden>
                 @error('payment_receipt')
@@ -107,5 +114,5 @@
 
 
 
-
+  <script src="{{ asset('assets/scripts/promocheck.js') }}"></script>
 </x-pages-layout>

@@ -141,6 +141,11 @@
                 >View </a
               >
             </li>
+            <li class="submenu-item">
+              <a href="{{ route('promo.view') }}" class="submenu-link"
+                >Promo Code Generation </a
+              >
+            </li>
 
           
 

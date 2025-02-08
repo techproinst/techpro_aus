@@ -91,6 +91,9 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function() {
         
         Route::get('/dashboard', [UserController::class, 'loadDashboard'])->name('dashboard');
 
+        Route::get('/promo', [UserController::class, 'loadPromo'])->name('promo.view');
+        Route::Post('/promo/create', [UserController::class, 'genPromoCode'])->name('promo.create');
+
       });
    
 
