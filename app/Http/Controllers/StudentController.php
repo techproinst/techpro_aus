@@ -329,14 +329,14 @@ class StudentController extends Controller
 
     public function getPendingReviews() 
     {
-       $students = Student::with('course')->where('review_status', Student::STATUS_PENDING)->get(); 
+       $students = Student::with('courses')->where('review_status', Student::STATUS_PENDING)->get(); 
 
        return view('admin.reviews.pending', compact('students'));
     }
 
     public function getActiveReviews()
     {
-        $students = Student::with('course')->where('review_status', Student::STATUS_APPROVED)->get(); 
+        $students = Student::with('courses')->where('review_status', Student::STATUS_APPROVED)->get(); 
 
          return view('admin.reviews.active', compact('students'));
     }
@@ -345,7 +345,7 @@ class StudentController extends Controller
     public function getDeclinedReviews() 
     {
          
-        $students = Student::with('course')->where('review_status', Student::STATUS_DECLINED)->get(); 
+        $students = Student::with('courses')->where('review_status', Student::STATUS_DECLINED)->get(); 
 
         return view('admin.reviews.declined', compact('students'));
     }
@@ -435,6 +435,24 @@ class StudentController extends Controller
 
 
        
+
+    }
+
+    public function deleteReview(Student $student)
+    {
+         $student->update([
+            'review_status' => Student::STATUS_DELETED,
+            'comment' => null,
+            'passport' => null,
+
+         ]);
+
+
+        return redirect()->back()->with([
+            'flash_message' => 'Student review deleted successfully',
+            'flash_type' => 'success',
+
+        ]);
 
     }
 

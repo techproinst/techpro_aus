@@ -391,7 +391,18 @@ class PaymentController extends Controller
         $request->validate([
             'amount' => ['required', 'numeric'],
             'payment_reference' => ['required', 'string'],
+            'amount_due' => ['required', 'numeric']
         ]);
+
+        if($request->amount > $request->amount_due){
+
+            return redirect()->back()->with([
+                'flash_message' => 'Amount paid is greater than Amount Due!!.kindly  recheck the amount paid',
+                'flash_type' => 'danger'
+            ]);
+
+
+        }
     
         try {   
             DB::beginTransaction();

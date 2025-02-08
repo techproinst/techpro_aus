@@ -15,6 +15,7 @@
           <div class="form-group">
             <label for="firstname">Amount Paid</label>
             <input type="number" class="form-control" name="amount" value="" required>
+            <input type="number" class="form-control" name="amount_due" value="{{$payment->amount_due}}" hidden>
 
           </div>
         </div>

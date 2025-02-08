@@ -16,6 +16,7 @@ class Student extends Model
     const  STATUS_PENDING = 0;
     const  STATUS_APPROVED = 1;
     const  STATUS_DECLINED = -1;
+    const  STATUS_DELETED = -2;
 
 
 

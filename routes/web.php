@@ -100,6 +100,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function() {
     Route::get('/students', [StudentController::class, 'index'])->name('students.view');
     Route::post('/students/{student}',[StudentController::class, 'update'])->name('student.update');
     Route::delete('/students/{student}', [StudentController::class, 'destroy'])->name('student.destroy');
+    Route::delete('/students/review/{student}', [StudentController::class, 'deleteReview'])->name('student.review.delete');
 
 
     Route::get('/pending/payments', [PaymentController::class, 'getPendingPayments'])->name('payments.pending');
