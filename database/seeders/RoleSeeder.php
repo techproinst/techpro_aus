@@ -16,11 +16,19 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         $admin = Role::create(['name' => 'super-admin']);
-        $createRoles = Permission::create(['name' => 'create role']);
+        Permission::insert([
+            ['name' => 'create role', 'guard_name' => 'web'],
+            ['name' => 'view role',   'guard_name' => 'web']
+        ]);
 
-        $admin->givePermissionTo($createRoles);
+        $admin->givePermissionTo(['create role', 'view role']);
 
          $user = User::find(1);
-         $user->assignRole('super-admin');
+
+         if ($user) {
+            
+            $user->assignRole('super-admin');
+        }
+        
     }
 }
