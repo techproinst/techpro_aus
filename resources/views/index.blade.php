@@ -65,7 +65,7 @@
                 <a class="dropdown-item" href="{{ route('show.businessAnalysis') }}">Business Analysis</a>
               </li>
               <li>
-                <a class="dropdown-item" href="{{route('show.scrumMaster')  }}">Scrum master Certification</a>
+                <a class="dropdown-item" href="{{route('show.scrumMaster')  }}">Scrum Master Certification</a>
               </li>
 
             </ul>

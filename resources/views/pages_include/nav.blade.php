@@ -54,7 +54,7 @@
             </li>
             <li>
               <a class="dropdown-item" href="{{ route('show.scrumMaster') }}"
-                >Scrum master Certification</a
+                >Scrum Master Certification</a
               >
             </li>
             
