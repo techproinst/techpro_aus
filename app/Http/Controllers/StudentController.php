@@ -175,15 +175,21 @@ class StudentController extends Controller
 
          $courseIds = $applicationService->getCourseIds($student);
 
+
          $paymentSchedules = $applicationService->getPaymentSchedule($courseIds);
 
-         list($amountDue, $continent) = $applicationService->getScheduleAmount($paymentSchedules);
+        list($amountDue, $continent) = $applicationService->getScheduleAmount($paymentSchedules);
 
         $currency = $payments->first()->currency;
 
         $paid = $payments->sum('amount');
 
-        $balance = $amountDue - $paid;
+        $lastAmountDue = $payments->last()->amount_due;
+
+        $balance = $lastAmountDue - $paid;
+
+       // $balance = $amountDue - $paid;
+
 
          return view('pages.details', compact(
             'student',

@@ -74,10 +74,10 @@
               @endforeach</td>
               <td>
                   @include('admin.payments.schedule.edit_form')
-                  @can('update course-price')
+                  {{-- @can('update course-price') --}}
                   <span class="badge bg-success" data-bs-toggle="modal"
                   data-bs-target="#border-less{{ $schedule->id }}">Edit</span> 
-                  @endcan
+                  {{-- @endcan --}}
                 
               </td>
             </tr>
