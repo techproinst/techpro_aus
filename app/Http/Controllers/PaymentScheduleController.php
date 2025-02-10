@@ -10,7 +10,7 @@ class PaymentScheduleController extends Controller
 
     public function __construct()
     {
-       // $this->middleware('permission:update course-price', ['only' => 'update']);
+        $this->middleware('permission:update course-price', ['only' => 'update']);
     }
     /**
      * Display a listing of the resource.
