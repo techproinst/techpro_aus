@@ -92,7 +92,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             @endif
-            @if($errors->any()) 
+            @if($errors->any())
             @foreach ($errors->all() as $error )
             <div class="col-md-6">
               <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -100,13 +100,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             </div>
-            @endforeach   
+            @endforeach
             @endif
         </div>
       </div>
     </div>
     <div class="row">
-      
+
       <div class="col-12 col-md-6 mb-3">
         <h1 class="intro-text mt-0 mt-md-5">Bridging the Gap to</h1>
         <h1 class="intro-text">Tech Careers</h1>
@@ -281,7 +281,7 @@
               <div class="social-wrapper">
                 <h5 class="card-title">Kabir Akinola</h5>
                 <div class="social-icons">
-                
+
                   <a href="#"><i class="bi bi-facebook"></i></a>
                   <a href="#"><i class="bi bi-linkedin"></i></a>
                 </div>
@@ -297,7 +297,7 @@
               <div class="social-wrapper ">
                 <h5 class="card-title">Aisha Olayiwola</h5>
                 <div class="social-icons">
-                 
+
                   <a href="#"><i class="bi bi-facebook"></i></a>
                   <a href="#"><i class="bi bi-linkedin"></i></a>
                 </div>
@@ -311,11 +311,11 @@
             <img src="{{ asset('assets/images/MIB[1].jpg') }}" class="card-img-top img-team" alt="..." />
             <div class="card-body">
               <div class="social-wrapper">
-                <h5 class="card-title">Dr, Olukomaiya</h5>
+                <h5 class="card-title">Dr Oladapo Olukomaiya</h5>
                 <div class="social-icons">
-               
-                  <a href="#"><i class="bi bi-facebook"></i></a>
-                  <a href="#"><i class="bi bi-linkedin"></i></a>
+
+                  <a href="#"><i class="bi bi-facebook ms-2"></i></a>
+                  {{-- <a href="#"><i class="bi bi-linkedin"></i></a> --}}
                 </div>
               </div>
               <p class="desc-text">Senior Data Governance Officer / Mentor</p>
@@ -348,17 +348,17 @@
           </div>
         </div>
       </div>
-     
+
     </div>
 
     <div class="row">
-     
+
       <div class="col">
-       
+
         <div class="title-testimonial text-center text-md-start mt-5 mt-md-0">
             <button class="review-btn"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" >Leave a review</button>
         </div>
-        
+
       </div>
     </div>
 
@@ -386,13 +386,13 @@
                         <small class="text-body-secondary">Student</small>
                       </p>
                       <p class="card-text author">{{ $student->country }}</p>
-                      
+
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-              
+
             @endforeach
 
             {{-- <div class="swiper-slide testimonial-card">
@@ -533,7 +533,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-5">  
+        <div class="col-lg-5">
             {{-- @if (session('flash_message'))
             <div class="alert alert-{{ session('flash_type', 'info') }} alert-dismissible fade show" role="alert">
                 {{ session('flash_message') }}
@@ -589,7 +589,7 @@
       </div>
       <div class="modal-body">
         <form action="{{ route('submit.feedback') }}" method="POST" enctype="multipart/form-data">
-          @csrf  
+          @csrf
               <div class="form-group mt-2">
                 <label for="firstname">Application Number</label>
                 <input required name='app_no' value="{{ old('app_no') }}" type="text" class="form-control mt-2">
@@ -597,12 +597,12 @@
                 <span class="text-danger">
                   {{ $message }}
                 </span>
-                  
+
                 @enderror
               </div>
-             
-              
-            
+
+
+
               <div class="mb-3 mt-3">
                 <label for="formFile" class="form-label">Upload Image</label>
                 <input class="form-control" name="passport" type="file" id="formFile" required>
@@ -610,7 +610,7 @@
                 <span class="text-danger">
                   {{ $message }}
                 </span>
-                  
+
                 @enderror
               </div>
 
@@ -621,22 +621,22 @@
                 <span class="text-danger">
                   {{ $message }}
                 </span>
-                  
+
                 @enderror
               </div>
-      
+
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-success">Submit</button>
           </div>
-          
+
         </form>
     </div>
   </div>
 </div>
 
- 
+
 
   @include('pages_include.footer')
 
@@ -671,7 +671,7 @@
         },
       });
 
-    
+
 
   </script>
 </body>
