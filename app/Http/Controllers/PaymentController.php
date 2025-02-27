@@ -572,6 +572,8 @@ class PaymentController extends Controller
     {
         $payments = Payment::with('student')->where('status', Payment::Active)->whereNotNull('payment_reference')->get();
 
+        //dd($payments);
+
         return view('admin.payments.active', compact('payments'));
     }
 
