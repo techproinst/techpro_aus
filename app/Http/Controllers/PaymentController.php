@@ -576,7 +576,7 @@ class PaymentController extends Controller
     }
 
 
-    public function getDeclinedPayments()
+    public function getDeclinedPayments()   
     { 
         
         $payments = Payment::with('student')->where('status', Payment::Declined)->whereNull('payment_reference')->get();
