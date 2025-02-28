@@ -44,6 +44,10 @@ Route::get('/quiz', function() {
     return view('pages.quiz');
 })->name('quiz');
 
+Route::get('/contact', function() {
+    return view('pages.contact');
+})->name('contact');
+
 
 Route::get('/register-page', function() {
     return view('pages.register');

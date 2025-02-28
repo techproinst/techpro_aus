@@ -1,6 +1,6 @@
 <x-pages-layout>
   <x-slot:title>
-    Business Analysis Course
+    Contact :: Us 
   </x-slot:title>
 
   <x-slot:link>
@@ -20,8 +20,5 @@
         <p>Schedule a personal session</p>
       </div>
     </div>
-
- 
-
 
 </x-pages-layout>
