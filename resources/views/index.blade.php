@@ -369,7 +369,7 @@
           <div class="swiper-wrapper">
             @foreach ($students as $student )
             <div class="swiper-slide testimonial-card">
-              <div class="card shadow-sm mb-3">
+              <div  class="card shadow-sm mb-3 card-height">
                 <div class="row g-0">
                   <div class="col-md-4">
                     <img src="{{ asset('upload/'. $student->passport) }}"
@@ -394,6 +394,7 @@
             </div>
 
             @endforeach
+        
 
             {{-- <div class="swiper-slide testimonial-card">
               <div class="card shadow-sm mb-3">

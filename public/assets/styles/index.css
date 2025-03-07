@@ -327,13 +327,50 @@
   transform: scale(1.2);
 }
 
-.testimonial-image {
-  /* height: 100%; */
-  height: 170px;
+.card-height {
+  max-height: 400px;
+
 }
+
+
+
+
+.testimonial-image {
+  width: 100%;
+  height: 258px; 
+  
+  
+
+
+}
+
+.comment {
+  margin-top: -40px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limit to 3 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 4.5em; /* Adjust based on line height */
+  line-height: 1.5em; /* Adjust spacing */
+  white-space: normal; /* Allow wrapping */
+}
+
+.comment:hover  {
+  -webkit-line-clamp: unset;
+  max-height: none;
+  overflow: visible;
+  white-space: normal;
+}
+
+
+
 
 /* Styles for small screens (below 768px) */
 @media (max-width: 768px) {
+  .card-height {
+    max-height: 400px;
+  }
   .swiper-slide .card {
     width: 70%; /* Each slide takes 50% of the width on small screens */
     margin: 0 auto; /* This centers the swiper-slide horizontally */
@@ -347,7 +384,6 @@
 
   .swiper-slide .card .row .col-md-4 img {
     height: 100%; /* Ensure the image takes the full height of the container */
-    /* object-fit: contain; */
      /* Ensure the image maintains its aspect ratio */
     width: 100%; /* Ensure the width takes the full container width */
     
@@ -375,6 +411,19 @@
     font-size: 1.5rem;
     margin-bottom: 10px; /* Add spacing between the title and buttons */
   }
+
+  .comment {
+    margin-top: -50px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 3 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 4.5em; /* Adjust based on line height */
+    line-height: 1.5em; /* Adjust spacing */
+    white-space: normal; /* Allow wrapping */
+  }
+  
 }
 
 .quote-mark {
@@ -382,9 +431,8 @@
   color: #1a1a47;
   margin-top: -15px;
 }
-.comment {
-  margin-top: -40px;
-}
+
+
 .role {
   margin-top: -20px;
 }

@@ -33,7 +33,11 @@ class StudentController extends Controller
 
     public function loadIndex()
     {
-        $students =  Student::with('courses')->where('review_status', Student::STATUS_APPROVED)->get();
+        $students =  Student::with('courses')
+                            ->where('review_status', Student::STATUS_APPROVED)
+                            ->whereNotNull('comment')
+                            ->whereNotNull('passport')
+                            ->get();
 
         return view('index', compact('students'));
     }
@@ -240,8 +244,8 @@ class StudentController extends Controller
 
             $request->validate([
                 
-                'comment' => ['required', 'string', 'max:20'],
-                'passport' => 'required|mimes:jpg,jpeg,png,|max:1024',
+                'comment' => ['required', 'string', 'max:146'],
+                'passport' => 'required|image|mimes:jpg,jpeg,png,|max:1024',
 
             ]);
 
@@ -263,6 +267,8 @@ class StudentController extends Controller
     
         }
 
+        Log::info('image name is : ' . $upload);
+
         try {
 
             DB::beginTransaction();
@@ -271,7 +277,7 @@ class StudentController extends Controller
 
                         $student->update([
                                 'country' => $country,
-                                'review_status' => Student::STATUS_PENDING,
+                                'review_status' => Student::STATUS_PENDING ?? 0,
                                 'comment' => $request->comment,
                                 'passport' => $upload ?? null,
                             ]);
@@ -281,7 +287,7 @@ class StudentController extends Controller
 
                             $admin = User::first();
 
-                            Mail::to($admin->email)->send(new AdminReviewNotificationMail($admin->name));
+                           Mail::to($admin->email)->send(new AdminReviewNotificationMail($admin->name));
 
                         } catch(Exception $emailException) {
 
@@ -342,7 +348,11 @@ class StudentController extends Controller
 
     public function getActiveReviews()
     {
-        $students = Student::with('courses')->where('review_status', Student::STATUS_APPROVED)->get(); 
+        $students = Student::with('courses')
+                            ->where('review_status', Student::STATUS_APPROVED)
+                            ->whereNotNull('comment')
+                            ->whereNotNull('passport')
+                            ->get(); 
 
          return view('admin.reviews.active', compact('students'));
     }
